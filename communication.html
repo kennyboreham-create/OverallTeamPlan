@@ -5,17 +5,75 @@
     <title>Communication in Hockey</title>
 
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        /* Layout adjustments to give the floating video its own space */
+        body { 
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            margin: 20px; 
+            margin-right: 600px; /* Prevents text from slipping behind the video panel */
+        }
         h1 { color: #003366; }
         h2 { color: #0055aa; }
-        a { color: #0066cc; cursor: pointer; }
+        a { color: #0066cc; cursor: pointer; text-decoration: underline; }
+        a:hover { color: #003366; }
         section { margin-top: 40px; }
+
+        /* FLOATING VIDEOPANEL MODAL */
+        .video-modal-sidebar { 
+            position: fixed; 
+            right: 30px; 
+            top: 50%; 
+            transform: translateY(-50%); /* Perfectly centers it vertically */
+            z-index: 9999; 
+            background: #ffffff;
+            padding: 15px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .video-modal-sidebar h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #333;
+            font-family: sans-serif;
+            text-align: center;
+        }
     </style>
 
+    <script src="https://www.youtube.com/iframe_api"></script>
+
     <script>
-        function jumpTo(seconds) {
-            const player = document.getElementById("coachVideo");
-            player.src = "https://www.youtube.com/embed/LzbwdZlIX94?start=" + seconds;
+        let player;
+        const VIDEO_ID = 'LzbwdZlIX94';
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('coachVideo', {
+                height: '315',
+                width: '560',
+                videoId: VIDEO_ID,
+                playerVars: {
+                    'playsinline': 1,
+                    'rel': 0
+                }
+            });
+        }
+
+        function jumpTo(start, stop = null) {
+            if (player && typeof player.cueVideoById === 'function') {
+                const options = {
+                    videoId: VIDEO_ID,
+                    startSeconds: start
+                };
+                
+                if (stop !== null) {
+                    options.endSeconds = stop;
+                }
+
+                player.cueVideoById(options);
+                player.playVideo();
+            } else {
+                console.error("YouTube Player is not ready yet.");
+            }
         }
     </script>
 </head>
@@ -24,90 +82,79 @@
 
     <h1>Communication in Hockey</h1>
 
-    <!-- SINGLE EMBEDDED PLAYER -->
-    <iframe id="coachVideo" width="560" height="315"
-        src="https://www.youtube.com/embed/LzbwdZlIX94"
-        frameborder="0" allowfullscreen>
-    </iframe>
+    <div class="video-modal-sidebar">
+        <h4>Coach Video Player</h4>
+        <div id="coachVideo"></div>
+    </div>
 
     <h2>Topics</h2>
     <ul>
-        <li><a onclick="jumpTo(70)">Why Communicate</a></li>
-        <li><a onclick="jumpTo(40)">Types Of Communication</a></li>
-        <li><a onclick="jumpTo(98)">Good Habits</a></li>
+        <li><a onclick="jumpTo(70, 90)">Why Communicate</a></li>
+        <li><a onclick="jumpTo(40, 55)">Types Of Communication</a></li>
+        <li><a onclick="jumpTo(98, 105)">Good Habits</a></li>
         <li><a href="#on-ice-communication">On-Ice Communication Examples</a></li>
         <li><a onclick="jumpTo(0)">Full Video</a></li>
     </ul>
 
-    <!-- WHY COMMUNICATE -->
     <section id="why-communicate">
-        <h1>Why Communicate</h1>
-        <h2>How Communication Improves Team Play</h2>
+        <h2>Why Communicate</h2>
+        <h3>How Communication Improves Team Play</h3>
         <p>Jump to the exact teaching moments:</p>
         <ul>
-            <li><a onclick="jumpTo(70)">1:10–1:30</a></li>
-            <li><a onclick="jumpTo(330)">5:30–5:36</a></li>
-            <li><a onclick="jumpTo(346)">5:46–5:58</a></li>
+            <li><a onclick="jumpTo(70, 90)">1:10–1:30</a></li>
+            <li><a onclick="jumpTo(330, 336)">5:30–5:36</a></li>
+            <li><a onclick="jumpTo(346, 358)">5:46–5:58</a></li>
         </ul>
     </section>
 
-    <!-- TYPES OF COMMUNICATION -->
     <section id="types-of-communication">
-        <h1>Types Of Communication</h1>
-        <h2>Different Ways Players Talk on the Ice</h2>
-        <p><a onclick="jumpTo(40)">Watch 0:40–0:55</a></p>
+        <h2>Types Of Communication</h2>
+        <h3>Different Ways Players Talk on the Ice</h3>
+        <p><a onclick="jumpTo(40, 55)">Watch 0:40–0:55</a></p>
     </section>
 
-    <!-- GOOD HABITS -->
     <section id="good-habits">
-        <h1>Good Habits</h1>
-        <h2>Building Strong Communication Skills</h2>
-        <p><a onclick="jumpTo(98)">Watch 1:38–1:45</a></p>
+        <h2>Good Habits</h2>
+        <h3>Building Strong Communication Skills</h3>
+        <p><a onclick="jumpTo(98, 105)">Watch 1:38–1:45</a></p>
     </section>
 
-    <!-- ON-ICE COMMUNICATION EXAMPLES -->
     <section id="on-ice-communication">
-        <h1>On-Ice Communication Examples</h1>
-        <h2>Practical Situations Where Communication Matters</h2>
+        <h2>On-Ice Communication Examples</h2>
+        <h3>Practical Situations Where Communication Matters</h3>
 
         <p><strong>Let Teammate Know They Have Time / No Time</strong><br>
-        <a onclick="jumpTo(126)">2:06–2:20</a></p>
+        <a onclick="jumpTo(126, 140)">2:06–2:20</a></p>
 
         <p><strong>Let Player Know He Has 2 Players With Him</strong><br>
-        <a onclick="jumpTo(75)">1:15–1:25</a></p>
+        <a onclick="jumpTo(75, 85)">1:15–1:25</a></p>
 
         <p><strong>Use Name When Asking for a Pass</strong><br>
-        <a onclick="jumpTo(140)">2:20–2:25</a></p>
+        <a onclick="jumpTo(140, 145)">2:20–2:25</a></p>
 
         <p><strong>Let Player Know Their Options</strong><br>
-        <a onclick="jumpTo(146)">2:26–2:36</a> |
-        <a onclick="jumpTo(194)">3:14–3:17</a> |
-        <a onclick="jumpTo(218)">3:38–3:42</a></p>
+        <a onclick="jumpTo(146, 156)">2:26–2:36</a> |
+        <a onclick="jumpTo(194, 197)">3:14–3:17</a> |
+        <a onclick="jumpTo(218, 222)">3:38–3:42</a></p>
 
         <p><strong>Let Partner Know to Get It</strong><br>
-        <a onclick="jumpTo(170)">2:50–3:11</a></p>
+        <a onclick="jumpTo(170, 191)">2:50–3:11</a></p>
 
         <p><strong>Goalie Communication</strong><br>
-        <a onclick="jumpTo(252)">4:12–4:23</a> |
-        <a onclick="jumpTo(292)">4:52–5:00</a> |
-        <a onclick="jumpTo(325)">5:25–5:40</a></p>
+        <a onclick="jumpTo(252, 263)">4:12–4:23</a> |
+        <a onclick="jumpTo(292, 300)">4:52–5:00</a> |
+        <a onclick="jumpTo(325, 340)">5:25–5:40</a></p>
 
         <p><strong>Compliments and Positive Reinforcement</strong><br>
-        <a onclick="jumpTo(275)">4:35–4:41</a> |
-        <a onclick="jumpTo(381)">6:21–6:42</a></p>
+        <a onclick="jumpTo(275, 281)">4:35–4:41</a> |
+        <a onclick="jumpTo(381, 402)">6:21–6:42</a></p>
     </section>
 
-    <!-- FULL VIDEO -->
     <section id="full-video">
-        <h1>Full Video</h1>
-        <h2>Ep #43 – Quick Guide To Communication On The Ice</h2>
+        <h2>Full Video</h2>
+        <h3>Ep #43 – Quick Guide To Communication On The Ice</h3>
         <p><a onclick="jumpTo(0)">Restart from the beginning</a></p>
     </section>
-    <iframe width="560" height="315"
-    src="https://www.youtube.com/embed/LzbwdZlIX94"
-    frameborder="0" allowfullscreen>
-</iframe>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/LzbwdZlIX94?si=liYQ2r37OMoh-F2E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 </body>
 </html>
