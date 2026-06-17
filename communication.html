@@ -174,7 +174,7 @@
                 playerVars: {
                     'playsinline': 1,
                     'rel': 0,
-                    'autoplay': 1,
+                    'autoplay': 0, // CHANGED: Does not play automatically on load
                     'theme': 'dark',
                     'color': 'white'
                 }
@@ -203,8 +203,11 @@
             }
         }
 
-        // Native JavaScript Draggable Setup
+        // Native JavaScript Draggable & Onload Setup
         document.addEventListener("DOMContentLoaded", () => {
+            // Trigger the onload notification pop-up
+            alert("Click any system text link on the page to jump straight to its video clip inside the floating player panel.");
+
             const modal = document.getElementById("draggableModal");
             const handle = modal.querySelector(".modal-handle");
             
@@ -269,13 +272,11 @@
         </div>
     </div>
 
-    
-
     <!-- WHY COMMUNICATE -->
     <section id="why-communicate">
         <h2>Why Communicate</h2>
         <h3>How Communication Improves Team Play</h3>
-        <p>Talking to teammates is essential for effective hockey play. It helps coordinate strategies, alert others to potential threats, and build trust on the ice.<br><i>Click Links below</i></i></p>
+        <p>Talking to teammates is essential for effective hockey play. It helps coordinate strategies, alert others to potential threats, and build trust on the ice.<br><i>Click Links below</i></p>
         <ul>
             <li><a onclick="jumpTo(70, 90)">Positive Communication</a></li>
             <li><a onclick="jumpTo(330, 336)">Easier to Play With</a></li>
@@ -288,7 +289,6 @@
         <h2>Types Of Communication</h2>
         <h3>Different Ways You Can Communicate</h3>
         <p>There are many different types of communication on the ice, including verbal cues, hand signals, eye contact, and body language. Each type serves a unique purpose in helping teammates understand each other and work together effectively.<br></p>
-        <!--<p><a onclick="jumpTo(40, 55)">Talking</a></p>-->
     </section>
 
     <!-- GOOD HABITS -->
