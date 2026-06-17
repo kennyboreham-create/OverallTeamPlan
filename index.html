@@ -171,7 +171,60 @@
     </div>
 
     <!-- ALL SECTIONS BELOW -->
+        <!-- START BACK TO TOP BUTTON -->
+<div id="backToTopBtn" onclick="scrollToTop()">▲</div>
 
+<style>
+    #backToTopBtn {
+        display: none;             /* Hidden by default, appears on scroll */
+        position: fixed;           /* Keeps it floating in place */
+        bottom: 30px;              /* Distance from bottom */
+        right: 30px;               /* Distance from right */
+        z-index: 9999;             /* Ensures it sits on top of all elements */
+        width: 45px;
+        height: 45px;
+        background-color: #1e293b; /* Dark theme slate color */
+        color: #38bdf8;            /* Your theme's signature Ice Blue color */
+        border: 1px solid #2e3d5c;
+        border-radius: 50%;        /* Makes it a perfect circle */
+        text-align: center;
+        line-height: 43px;         /* Centers the arrow vertically */
+        font-size: 18px;
+        cursor: pointer;
+        user-select: none;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+        transition: all 0.2s ease-in-out;
+    }
+
+    /* Hover animation effect */
+    #backToTopBtn:hover {
+        background-color: #2e3d5c;
+        color: #7dd3fc;
+        transform: translateY(-3px); /* Subtle upward pop when hovered */
+    }
+</style>
+
+    <script>
+        // Listen to the window scroll event
+        window.onscroll = function() {
+            const btn = document.getElementById("backToTopBtn");
+            // Show the button once the user scrolls down 300 pixels
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+
+        // Smoothly scroll back to the top of the document
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+     </script>
+    <!-- END BACK TO TOP BUTTON -->
 
     <div class="section" id="zones">
         <h1>Zones</h1>
