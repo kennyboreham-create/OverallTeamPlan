@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hockey Systems - F1-F2-F3 Roles</title>
+
+    <style>
+        /* Core Dark Theme Layout */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            line-height: 1.6; 
+            margin: 0;
+            padding: 0 20px 40px 20px;
+            background-color: #0b0f19; /* Deep midnight dark background */
+            color: #e2e8f0; /* Crisp light-grey text */
+        }
+
+        h1 { color: #ffffff; border-bottom: 2px solid #1e293b; padding-bottom: 8px; margin-top: 30px; }
+        h2 { color: #38bdf8; font-size: 1.5rem; margin-top: 25px; } /* Ice Blue headlines */
+        h3 { color: #94a3b8; font-size: 1.1rem; font-weight: 500; }
+        
+        /* Interactive Link Styling */
+        a { color: #38bdf8; cursor: pointer; text-decoration: none; transition: color 0.2s ease; }
+        a:hover { color: #7dd3fc; text-decoration: underline; }
+        
+        section { 
+            margin-top: 30px; 
+            background: #141b2d; /* Slightly lighter dark panel background */
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+        }
+
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        strong { color: #f1f5f9; }
+
+        /* ==========================================
+           HORIZONTAL NAVIGATION BAR (DARK SCHEME)
+           ========================================== */
+        .navbar {
+            background-color: #101726; 
+            border-bottom: 1px solid #1e293b;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            margin: 0 -20px 20px -20px; /* Extends flush to the page edges */
+        }
+
+        .nav-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: block;
+            color: #94a3b8;
+            text-align: center;
+            padding: 16px 24px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: color 0.2s, background-color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #38bdf8;
+            background-color: #1e293b;
+        }
+
+        /* Underline Slide Effect on Hover */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 50%;
+            background-color: #38bdf8;
+            transition: all 0.2s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        /* Active State Highlight for Current Page */
+        .nav-item.active .nav-link {
+            color: #38bdf8;
+            background-color: #141b2d;
+        }
+        
+        .nav-item.active .nav-link::after {
+            width: 80%;
+        }
+
+        /* ==========================================
+           BACK TO TOP BUTTON
+           ========================================== */
+        #backToTopBtn {
+            display: none;             
+            position: fixed;           
+            bottom: 30px;              
+            right: 30px;               
+            z-index: 9999;             
+            width: 45px;
+            height: 45px;
+            background-color: #1e293b; 
+            color: #38bdf8;            
+            border: 1px solid #2e3d5c;
+            border-radius: 50%;        
+            text-align: center;
+            line-height: 43px;         
+            font-size: 18px;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+            transition: all 0.2s ease-in-out;
+        }
+
+        #backToTopBtn:hover {
+            background-color: #2e3d5c;
+            color: #7dd3fc;
+            transform: translateY(-3px); 
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HORIZONTAL NAVIGATION -->
+    <nav class="navbar">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="#possession" class="nav-link">Possession</a></li>
+            <li class="nav-item"><a href="communication.html" class="nav-link">Communication</a></li>
+            <li class="nav-item"><a href="forecheck.html" class="nav-link">Forecheck</a></li>
+            <li class="nav-item active"><a href="#f1-f2-f3" class="nav-link">F1-F2-F3</a></li>
+            <li class="nav-item"><a href="#d1-d2-d3" class="nav-link">D1-D2-D3</a></li>
+            <li class="nav-item"><a href="backcheck.html" class="nav-link">Backcheck</a></li>
+        </ul>
+    </nav>
+
+    <h1>Forward Rotation & Layered Responsibilities (F1-F2-F3)</h1>
+
+    <!-- SECTION 1 -->
+    <section id="f1-role">
+        <h2>1. F1 - The First Forward (The Hunter)</h2>
+        <h3>Direct Puck Pressure and Forcing Decisions</h3>
+        <p>The F1 role is defined by speed, relentless puck pursuit, and smart angling. F1's primary assignment is to establish an aggressive track on the opposing puck carrier to eliminate their time to make a clean play.</p>
+        <ul>
+            <li><strong>First Man In:</strong> Attacks the puck carrier immediately, regardless of position or line deployment.</li>
+            <li><strong>Forcing a Direction:</strong> Uses an inside-out skating arc to cut the ice in half and force the play into the boards.</li>
+            <li><strong>Creating Chaos:</strong> Disrupts clean possession to create structural loose pucks for incoming support layers.</li>
+        </ul>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section id="f2-role">
+        <h2>2. F2 - The Second Forward (The Reader)</h2>
+        <h3>Anticipation, Puck Support, and Board Battles</h3>
+        <p>The F2 forward reads the angle and success rate of F1's initial attack. This player plays dynamically between containing pass options and jumping into active scrums to seal possession.</p>
+        <ul>
+            <li><strong>Reading the Pressure:</strong> If F1 separates the defender from the puck, F2 dives in aggressively to claim possession.</li>
+            <li><strong>Locking the Wall:</strong> Shadows the primary board-side outlet receiver to catch breakout intents along the rim.</li>
+            <li><strong>Interchangeable Flow:</strong> Must be ready to transition instantly into the F1 pressuring role if F1 gets caught deep or loops out of position.</li>
+        </ul>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section id="f3-role">
+        <h2>3. F3 - The Third Forward (The Safety Net)</h2>
+        <h3>High-Slot Tracking and Transitional Containment</h3>
+        <p>The F3 forward provides defensive security in the offensive zone. By maintaining high positioning inside the blue line, F3 blankets central counter-attacks and covers late dangerous assignments.</p>
+        <ul>
+            <li><strong>The High Slot Cushion:</strong> Hovers above the active cycle to shut down stretch passes out of the zone.</li>
+            <li><strong>Tracking the Trailers:</strong> Identifies late joining defenders or options breaking through center ice.</li>
+            <li><strong>First Up on Backcheck:</strong> Transitions immediately to a deep tracking lane the second possession is cleanly turned over.</li>
+        </ul>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section id="rotational-fluidity">
+        <h2>4. Fluid Rotation Principles</h2>
+        <h3>Maintaining Layered Depth Through Positional Swaps</h3>
+        <p>A structured forward attack relies on continuous positional rotation. Fixed tags do not exist; players switch responsibilities dynamically based on their distance from the puck.</p>
+        <ul>
+            <li><strong>Filling the Void:</strong> If F3 sees an opening and drives down to attack a broken play, the closest recovering forward must rotate high into the F3 safety valve position.</li>
+            <li><strong>Spacing Discipline:</strong> Forwards must avoid packing closely into identical zones. Effective puck management depends on maintaining vertical and horizontal gaps.</li>
+            <li><strong>Continuous Communication:</strong> Vocal cues are essential to alert teammates of rotations, cross-swaps, and behind-the-back tracking adjustments.</li>
+        </ul>
+    </section>
+
+    <!-- FLOATING GO UP ICON -->
+    <div id="backToTopBtn" onclick="scrollToTop()">▲</div>
+
+    <script>
+        // Listen to the window scroll event to toggle button visibility
+        window.onscroll = function() {
+            const btn = document.getElementById("backToTopBtn");
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+
+        // Smooth scroll functionality back to index zero coordinates
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+    </script>
+
+</body>
+</html>
