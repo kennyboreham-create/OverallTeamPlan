@@ -5,12 +5,11 @@
     <title>Communication in Hockey</title>
 
     <style>
-        /* Layout adjustments to give the floating video its own space */
         body { 
             font-family: Arial, sans-serif; 
             line-height: 1.6; 
             margin: 20px; 
-            margin-right: 600px; /* Prevents text from slipping behind the video panel */
+            margin-right: 620px; /* Keeps text clear of the default modal position */
         }
         h1 { color: #003366; }
         h2 { color: #0055aa; }
@@ -18,28 +17,56 @@
         a:hover { color: #003366; }
         section { margin-top: 40px; }
 
-        /* FLOATING VIDEOPANEL MODAL */
+        /* DRAGGABLE & RESIZABLE MODAL CONTAINER */
         .video-modal-sidebar { 
             position: fixed; 
             right: 30px; 
-            top: 50%; 
-            transform: translateY(-50%); /* Perfectly centers it vertically */
+            top: 20%; 
             z-index: 9999; 
             background: #ffffff;
-            padding: 15px;
-            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.25);
+            padding: 10px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
             border-radius: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
+            
+            /* Native browser resizing functionality */
+            resize: both; 
+            overflow: auto; 
+            min-width: 320px;
+            min-height: 240px;
+            width: 560px; /* Default width */
+            height: 350px; /* Default height to account for player + handle */
         }
-        .video-modal-sidebar h4 {
-            margin: 0 0 10px 0;
-            font-size: 14px;
-            color: #333;
-            font-family: sans-serif;
+
+        /* Drag Handle Bar at the top */
+        .modal-handle {
+            padding: 6px;
+            background: #003366;
+            color: #fff;
+            border-radius: 4px 4px 0 0;
+            cursor: move; /* Changes cursor to a drag-directional crosshair */
+            font-size: 12px;
+            font-weight: bold;
             text-align: center;
+            user-select: none;
+            margin-bottom: 5px;
+        }
+
+        /* Responsive Wrapper to make iframe adapt to user resizing the container */
+        .video-wrapper {
+            width: 100%;
+            height: calc(100% - 35px); /* Subtracts handle bar height */
+            position: relative;
+        }
+
+        .video-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
     </style>
 
+    <!-- Load the YouTube Iframe Player API -->
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
@@ -48,14 +75,20 @@
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('coachVideo', {
-                height: '315',
-                width: '560',
                 videoId: VIDEO_ID,
                 playerVars: {
                     'playsinline': 1,
-                    'rel': 0
+                    'rel': 0,
+                    'autoplay': 1
+                },
+                events: {
+                    'onReady': onPlayerReady
                 }
             });
+        }
+
+        function onPlayerReady(event) {
+            // Player is loaded and ready
         }
 
         function jumpTo(start, stop = null) {
@@ -69,12 +102,57 @@
                     options.endSeconds = stop;
                 }
 
+                // Cue the video parameters, then immediately force playback state
                 player.cueVideoById(options);
-                player.playVideo();
+                setTimeout(() => {
+                    player.playVideo();
+                }, 150); // Small timeout ensures API registers the source swap before playing
             } else {
                 console.error("YouTube Player is not ready yet.");
             }
         }
+
+        // Draggable Functionality Logic
+        document.addEventListener("DOMContentLoaded", () => {
+            const modal = document.getElementById("draggableModal");
+            const handle = modal.querySelector(".modal-handle");
+            
+            let isDragging = false;
+            let offsetX, offsetY;
+
+            handle.addEventListener("mousedown", (e) => {
+                isDragging = true;
+                // Calculate cursor position relative to the modal frame
+                offsetX = e.clientX - modal.getBoundingClientRect().left;
+                offsetY = e.clientY - modal.getBoundingClientRect().top;
+                
+                // Temporarily disable pointer events on iframe so mouse tracks correctly over it
+                document.getElementById("coachVideo").style.pointerEvents = "none";
+                
+                document.addEventListener("mousemove", mouseMoveHandler);
+                document.addEventListener("mouseup", mouseUpHandler);
+            });
+
+            function mouseMoveHandler(e) {
+                if (!isDragging) return;
+                
+                // Update coordinates dynamically while dragging
+                let newLeft = e.clientX - offsetX;
+                let newTop = e.clientY - offsetY;
+                
+                modal.style.left = newLeft + "px";
+                modal.style.top = newTop + "px";
+                modal.style.right = "auto"; // Overrides the CSS default right placement
+            }
+
+            function mouseUpHandler() {
+                isDragging = false;
+                // Re-enable interactions inside the YouTube video frame
+                document.getElementById("coachVideo").style.pointerEvents = "auto";
+                document.removeEventListener("mousemove", mouseMoveHandler);
+                document.removeEventListener("mouseup", mouseUpHandler);
+            }
+        });
     </script>
 </head>
 
@@ -82,9 +160,12 @@
 
     <h1>Communication in Hockey</h1>
 
-    <div class="video-modal-sidebar">
-        <h4>Coach Video Player</h4>
-        <div id="coachVideo"></div>
+    <!-- DRAGGABLE & RESIZABLE PANEL -->
+    <div class="video-modal-sidebar" id="draggableModal">
+        <div class="modal-handle">::: DRAG ME TO POSITION :::</div>
+        <div class="video-wrapper">
+            <div id="coachVideo"></div>
+        </div>
     </div>
 
     <h2>Topics</h2>
@@ -96,6 +177,7 @@
         <li><a onclick="jumpTo(0)">Full Video</a></li>
     </ul>
 
+    <!-- WHY COMMUNICATE -->
     <section id="why-communicate">
         <h2>Why Communicate</h2>
         <h3>How Communication Improves Team Play</h3>
@@ -107,18 +189,21 @@
         </ul>
     </section>
 
+    <!-- TYPES OF COMMUNICATION -->
     <section id="types-of-communication">
         <h2>Types Of Communication</h2>
         <h3>Different Ways Players Talk on the Ice</h3>
         <p><a onclick="jumpTo(40, 55)">Watch 0:40–0:55</a></p>
     </section>
 
+    <!-- GOOD HABITS -->
     <section id="good-habits">
         <h2>Good Habits</h2>
         <h3>Building Strong Communication Skills</h3>
         <p><a onclick="jumpTo(98, 105)">Watch 1:38–1:45</a></p>
     </section>
 
+    <!-- ON-ICE COMMUNICATION EXAMPLES -->
     <section id="on-ice-communication">
         <h2>On-Ice Communication Examples</h2>
         <h3>Practical Situations Where Communication Matters</h3>
@@ -150,6 +235,7 @@
         <a onclick="jumpTo(381, 402)">6:21–6:42</a></p>
     </section>
 
+    <!-- FULL VIDEO -->
     <section id="full-video">
         <h2>Full Video</h2>
         <h3>Ep #43 – Quick Guide To Communication On The Ice</h3>
