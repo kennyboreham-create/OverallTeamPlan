@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hockey Team Training Dashboard</title>
+    <style>
+        :root {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --accent-color: #00bcd4;
+            --text-main: #ffffff;
+            --text-muted: #aaaaaa;
+            --border-color: #333333;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            margin-top: 0;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .navigation-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0 40px 0;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        .navigation-list li {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navigation-list li:last-child {
+            border-bottom: none;
+        }
+
+        .navigation-list h2 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .navigation-list a {
+            display: block;
+            padding: 15px 20px;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .navigation-list a:hover {
+            background-color: rgba(0, 188, 212, 0.1);
+            color: var(--accent-color);
+        }
+
+        .content-section {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-color);
+            scroll-margin-top: 20px; /* Smooth scrolling offset */
+        }
+
+        .content-section:last-child {
+            border-bottom: none;
+        }
+
+        .content-section h2 {
+            color: var(--accent-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            opacity: 0.7;
+        }
+
+        .back-to-top:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Top Navigation Section -->
+    <h1 id="possession-top">Possession</h1>
+    
+    <ul class="navigation-list">
+        <li><a href="#in-possession"><h2>In Possession</h2></a></li>
+        <li><a href="#out-of-possession"><h2>Out of Possession</h2></a></li>
+        <li><a href="#loose-50-50"><h2>Loose/50-50</h2></a></li>
+        <li><a href="#when-to-attack"><h2>When to Attack</h2></a></li>
+        <li><a href="#communicate"><h2>Communicate</h2></a></li>
+    </ul>
+
+    <!-- Content Sections -->
+    <div id="in-possession" class="content-section">
+        <h2>In Possession</h2>
+        <p>Focus on maintaining puck control through clean transitions, crisp tape-to-tape passing, and establishing strong offensive zone cycles. Utilize defensemen at the blue line to stretch the opposing coverage framework.</p>
+        <a href="#possession-top" class="back-to-top">↑ Back to Navigation</a>
+    </div>
+
+    <div id="out-of-possession" class="content-section">
+        <h2>Out of Possession</h2>
+        <p>Implement structured backchecking layers and a disciplined 1-2-2 neutral zone trap. Collapse down low to protect high-danger scoring areas in front of the net while maintaining active sticks to disrupt passing lanes.</p>
+        <a href="#possession-top" class="back-to-top">↑ Back to Navigation</a>
+    </div>
+
+    <div id="loose-50-50" class="content-section">
+        <h2>Loose/50-50</h2>
+        <p>Anticipate structural transitions during contested plays along the boards. Support the primary battler with a secondary close-support player to cleanly secure possession out of scrums and heavy physical tie-ups.</p>
+        <a href="#possession-top" class="back-to-top">↑ Back to Navigation</a>
+    </div>
+
+    <div id="when-to-attack" class="content-section">
+        <h2>When to Attack</h2>
+        <p>Exploit dynamic odd-man rushes on counter-attacks immediately following defensive takeaways. Drive deep past the dots when the opposing defense is caught flat-footed or stuck in an extended shift layout.</p>
+        <a href="#possession-top" class="back-to-top">↑ Back to Navigation</a>
+    </div>
+
+    <div id="communicate" class="content-section">
+        <h2>Communicate</h2>
+        <p>Maintain consistent vocal cues for blind spot alerts, defensive switches, and line change pacing. Ensure clear point-to-point talk during high-pressure cycles to eliminate coverage confusion in the zone.</p>
+        <a href="#possession-top" class="back-to-top">↑ Back to Navigation</a>
+    </div>
+
+</div>
+
+</body>
+</html>
