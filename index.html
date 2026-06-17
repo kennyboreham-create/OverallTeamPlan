@@ -44,35 +44,80 @@
             max-width: 900px;
             margin: 0 auto;
         }
+
+        /* ==========================================
+           HORIZONTAL NAVIGATION BAR (DARK SCHEME)
+           ========================================== */
+        .navbar {
+            background-color: #101726; 
+            border-bottom: 1px solid #1e293b;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            margin: 0 -20px 20px -20px; /* Extends flush to the page edges */
+        }
+
+        .nav-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: block;
+            color: #94a3b8;
+            text-align: center;
+            padding: 16px 24px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: color 0.2s, background-color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #38bdf8;
+            background-color: #1e293b;
+        }
+
+        /* Underline Slide Effect on Hover */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 50%;
+            background-color: #38bdf8;
+            transition: all 0.2s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        /* Active State Highlight for Current Page */
+        .nav-item.active .nav-link {
+            color: #38bdf8;
+            background-color: #141b2d;
+        }
+        
+        .nav-item.active .nav-link::after {
+            width: 80%;
+        }
     </style>
 </head>
 <body>
 
-    <!-- TOP SECTION -->
-    <div class="section top-links">
-        <h1>Overall System Thunder</h1>
-        <h2>
-            <a href="#possession">3 Types of Possession</a> •
-            <a href="#f1f2f3">What is F1, F2, F3</a> •
-            <a href="#zones">Zones</a> •
-            <a href="#d1d2">What is D1, D2</a> •
-            <a href="#forecheck">Forecheck</a> •
-            <a href="#backcheck">Backcheck</a> •
-            <a href="#breakouts">Breakouts</a> •
-            <a href="#regrouping">Regrouping</a> •
-            <a href="#dzcoverage">Defensive Zone Coverage</a> •
-            <a href="#standard">Standard, Aggressive, Passive</a> •
-            <a href="#powerplay">Power Play</a> •
-            <a href="#penaltykill">Penalty Kill</a> •
-            <a href="#timing">Timing</a>
-            <a href="#communication">Communication</a>
-        </h2>
-    </div>
 
-    
-    </style>
-</head>
-<body>
 
     <nav class="navbar">
         <ul class="nav-list">
