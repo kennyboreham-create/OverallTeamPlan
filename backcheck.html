@@ -134,6 +134,41 @@
             color: #7dd3fc;
             transform: translateY(-3px); 
         }
+          /* Container for the hockey rinks */
+.rink-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+    margin-top: 15px;
+}
+
+/* Individual card styling to blend with any color scheme */
+.rink-card {
+    background-color: #ffffff; /* Keeps the background pristine white for the rinks */
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Soft border that adapts to light/dark backdrops */
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Subtle depth */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hover effect for an interactive feel */
+.rink-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive image settings */
+.rink-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 4px;
+}
     </style>
 </head>
 <body>
@@ -192,9 +227,25 @@
         <h3><strong>Stop the rush, remove passing options, and force a turnover. Once the offensive team gains the zone, transition immediately into D-Zone Coverage.</strong></h3>
     </section>
 
+     <!-- Hockey Rink Gallery Section -->
+<div class="rink-container">
+    <a href="img/D1D2.png" target="_blank" class="rink-card" title="Click to view full image">
+        <img src="img/D1D2.png" alt="Hockey Rink Diagram 1" class="rink-img">
+    </a>
+    <a href="img/d1d22.png" target="_blank" class="rink-card" title="Click to view full image">
+        <img src="img/d1d22.png" alt="Hockey Rink Diagram 2" class="rink-img">
+    </a>
+    <a href="img/d1d2d3.png" target="_blank" class="rink-card" title="Click to view full image">
+        <img src="img/d1d2d3.png" alt="Hockey Rink Diagram 3" class="rink-img">
+    </a>
+    <a href="img/dzone.png" target="_blank" class="rink-card" title="Click to view full image">
+        <img src="img/dzone.png" alt="Hockey Rink Diagram 4" class="rink-img">
+    </a>
+</div>
+
     <!-- SECTION 4 -->
     <section id="zone-integration">
-        <h2>4. Defensive Zone Coverage Integration</h2>
+        <h2>Transitioning To D-Zone Coverage</h2>
         <h3>Transitioning Safely into Assigned Low-Zone Layouts</h3>
         <p>Smooth coordination between rushing backcheckers and set defensemen prevents coverage confusion as the play collapses deep inside the blue line.</p>
         <ul>
