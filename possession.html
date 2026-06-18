@@ -551,6 +551,94 @@
         grid-template-columns: 1fr;
     }
 }
+/* Off-Puck Trigger Link */
+.nopuck-link {
+    color: #00e676;
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px dashed #00e676;
+    transition: color 0.2s ease;
+}
+.nopuck-link:hover {
+    color: #66ffa6;
+}
+
+/* Modal width sizing */
+.nopuck-modal-width {
+    max-width: 600px !important;
+}
+
+/* Tactical Checklist Styling */
+.tactical-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 25px 0;
+}
+
+.tactical-checklist li {
+    display: flex;
+    align-items: flex-start;
+    background-color: #111111;
+    border: 1px solid #222222;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+}
+
+.check-icon {
+    font-size: 1.3rem;
+    margin-right: 15px;
+    margin-top: 2px;
+}
+
+.tactical-checklist p {
+    margin: 0;
+    font-size: 1rem;
+    color: #e0e0e0;
+    line-height: 1.4;
+}
+
+.tactical-checklist strong {
+    color: #ffffff;
+}
+
+/* Video CTA Block at bottom of Modal */
+.modal-video-cta {
+    background: linear-gradient(135deg, #161616, #222222);
+    border: 1px solid #333333;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.modal-video-cta p {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    color: #aaaaaa;
+}
+
+/* Video Navigation Button */
+.video-btn {
+    display: inline-block;
+    background-color: #00e676;
+    color: #000000;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.video-btn:hover {
+    background-color: #66ffa6;
+    transform: translateY(-1px);
+}
+
+.video-btn:active {
+    transform: translateY(0);
+}
     </style>
     <script>
         // Modal functionality
@@ -594,6 +682,29 @@
     window.addEventListener('click', (e) => {
         if (e.target === systemsModal) {
             systemsModal.classList.remove('active');
+        }
+    });
+});
+document.addEventListener('DOMContentLoaded', () => {
+    const noPuckModal = document.getElementById('noPuckModal');
+    const openNoPuckLink = document.getElementById('openNoPuckModalLink');
+    const closeNoPuckBtn = document.getElementById('closeNoPuckModal');
+
+    // Open Modal
+    openNoPuckLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        noPuckModal.classList.add('active'); // Extends your active styles rule
+    });
+
+    // Close Modal via Button
+    closeNoPuckBtn.addEventListener('click', () => {
+        noPuckModal.classList.remove('active');
+    });
+
+    // Close Modal by clicking background overlay
+    window.addEventListener('click', (e) => {
+        if (e.target === noPuckModal) {
+            noPuckModal.classList.remove('active');
         }
     });
 });
@@ -788,6 +899,41 @@
                 <li><span class="step-num">2</span> Is my teammate in a better position? <span class="arrow">→</span> <span class="badge badge-pass">Pass</span></li>
                 <li><span class="step-num">3</span> Neither? <span class="arrow">→</span> <span class="badge badge-protect">Protect the puck and keep possession</span></li>
             </ol>
+        </div>
+    </div>
+</div>
+<a href="#" id="openNoPuckModalLink" class="nopuck-link">View Off-Puck Movement Guide</a>
+
+<div id="noPuckModal" class="modal-overlay">
+    <div class="modal-content nopuck-modal-width">
+        <span class="modal-close" id="closeNoPuckModal">&times;</span>
+        
+        <h2 class="modal-title">What to do when you don't have the puck</h2>
+        
+        <div class="nopuck-content">
+            <ul class="tactical-checklist">
+                <li>
+                    <span class="check-icon">👁️</span>
+                    <p><strong>Keep your head up</strong> and scan the ice constantly.</p>
+                </li>
+                <li>
+                    <span class="check-icon">🏒</span>
+                    <p><strong>Find open space</strong> instead of standing still.</p>
+                </li>
+                <li>
+                    <span class="check-icon">⏱️</span>
+                    <p><strong>Move at the right time</strong> when your teammate is ready to pass.</p>
+                </li>
+                <li>
+                    <span class="check-icon">🗣️</span>
+                    <p><strong>Communicate</strong> so your teammates know you're available.</p>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="modal-video-cta">
+            <p>Want to see these concepts in action?</p>
+            <a href="nopuck.html" class="video-btn">Click to check out videos</a>
         </div>
     </div>
 </div>
