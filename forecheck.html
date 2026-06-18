@@ -134,6 +134,42 @@
             color: #7dd3fc;
             transform: translateY(-3px); 
         }
+
+        /* Container for the hockey rinks */
+.rink-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+    margin-top: 15px;
+}
+
+/* Individual card styling to blend with any color scheme */
+.rink-card {
+    background-color: #ffffff; /* Keeps the background pristine white for the rinks */
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Soft border that adapts to light/dark backdrops */
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Subtle depth */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hover effect for an interactive feel */
+.rink-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive image settings */
+.rink-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 4px;
+}
     </style>
 </head>
 <body>
@@ -154,32 +190,56 @@
     <h1>Forechecking Systems & Strategies</h1>
 
     <!-- SECTION 1 -->
+      <section id="forecheck-principles">
+        <h2>When do we forecheck</h2>
+        <h3>We forecheck when we are in pressure mode (out of possession)</h3>
+        <p><>When the other team gains control of the puck in their own end. We want to move into our forecheck.</p>
+        
+    </section>
     <section id="forecheck-principles">
-        <h2>1. Core Principles of the Forecheck</h2>
+        <h2>Why do we forecheck?</h2>
         <h3>Establishing Pressure and Forcing Turnovers</h3>
         <p>The primary goal of a successful forecheck is to disrupt the opponent's breakout options, limit their time and space, and regain puck possession deep in the offensive zone.</p>
         <ul>
             <li><strong>Angling:</strong> Forcing the puck carrier toward the boards and cutting off ice width.</li>
             <li><strong>Stick Position:</strong> Keeping sticks on the ice to take away passing lanes.</li>
-            <li><strong>Physical Containment:</strong> Finishing clean checks to separate the defender from the puck.</li>
+            
         </ul>
     </section>
 
     <!-- SECTION 2 -->
     <section id="pressuring-systems">
-        <h2>2. 2-1-2 Aggressive Forecheck</h2>
-        <h3>High-Pressure Trapping on the Puck Carrier</h3>
-        <p>This aggressive system sends two players deep immediately to pressure the opposing defenders, forcing rapid, panicked puck choices.</p>
+        <h2> 1-2-2 Forecheck</h2>
+        <h3>We will use this system to apply pressure on the opposing team when they gain possession in their own end.</h3>
+        <p>This system has one player positioned deep to apply immediate pressure on the puck carrier, while the other two players create a trapping formation to limit the opponent's options.</p>
         <ul>
             <li><strong>F1 (First Forward):</strong> Targets the puck carrier directly with aggressive pressure to force a play.</li>
-            <li><strong>F2 (Second Forward):</strong> Reads F1's pressure and cuts off the opponent's primary outlet target or supports the battle along the wall.</li>
-            <li><strong>F3 (Third Forward):</strong> Remains high inside the blue line to watch the slot area and intercept defensive breakout passes.</li>
+            <li><strong>F2 (Second Forward):</strong>Stays with winger along boards to take away option. Ties up the opposing player.</li>
+            <li><strong>F3 (Third Forward):</strong> Stays with the other winger in the middle to take away passing lanes.</li>
+            <li>Strongside D holds the line at the boards to prevent breakout attempts.</li>
+            <li>Weakside D stays inside middle but backs out early to be the last man back.</li>
         </ul>
     </section>
 
+    <!-- Hockey Rink Gallery Section -->
+<div class="rink-container">
+    <div class="rink-card">
+        <img src="122a.html" alt="Hockey Rink Diagram 1" class="rink-img">
+    </div>
+    <div class="rink-card">
+        <img src="1221.html" alt="Hockey Rink Diagram 2" class="rink-img">
+    </div>
+    <div class="rink-card">
+        <img src="1223.html" alt="Hockey Rink Diagram 3" class="rink-img">
+    </div>
+    <div class="rink-card">
+        <img src="1224.html" alt="Hockey Rink Diagram 4" class="rink-img">
+    </div>
+</div>
+
     <!-- SECTION 3 -->
     <section id="conservative-systems">
-        <h2>3. 1-2-2 Passive (Left Wing Lock)</h2>
+        <h2></h2>
         <h3>Neutralizing Fast Breakouts and Restricting Wide Options</h3>
         <p>A conservative framework prioritizing mid-ice protection and positional positioning to completely smother high-speed transitional attacks.</p>
         <ul>
@@ -190,9 +250,9 @@
 
     <!-- SECTION 4 -->
     <section id="turnover-transitions">
-        <h2>4. Forecheck Transitions and Scoring</h2>
-        <h3>Converting Off-Puck Defensive Pressure into Scoring Plays</h3>
-        <p>Maximizing the efficiency of turnovers by immediately hunting high-danger offensive looks before the opposing defensive structure can adjust.</p>
+        <h2>Forecheck Transitions and Scoring</h2>
+        <h3>Converting turnovers into scoring opportunities</h3>
+        <p>If we take control of the puck after a successful forecheck, quickly transition to an offensive play. These are high percentage scoring chances.</p>
         <ul>
             <li><strong>Low-to-High Movement:</strong> Pulling won pucks out of corners back up to the point to shift the opposing coverage zone.</li>
             <li><strong>Cycle Attacks:</strong> Protecting the puck along the boards to wear down opposing defenders.</li>
