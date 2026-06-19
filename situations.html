@@ -135,27 +135,44 @@
                 }
             }
 
-            // Authenticate and sync with Database
-            fetchFromDatabase("login", { id: userId }, (response) => {
-                if (response.success) {
-                    sessionUser.role = response.role;
-                    sessionUser.id = userId;
-                    cachedVideos = response.videos || [];
-                    
-                    if (sessionUser.role === "coach") {
-                        cachedRoster = response.roster || [];
-                        document.getElementById("userRow").innerText = `Coach Dashboard | ID: ${userId}`;
-                    } else {
-                        cachedAssignments = response.assignments || [];
-                        document.getElementById("userRow").innerText = `Player View | Jersey #${userId}`;
-                        localStorage.setItem("jerseyNumber", userId);
+            // --- NEW & IMPROVED BACKEND ROUTING WRAPPER ---
+        function fetchFromDatabase(action, payloads, callback) {
+            // Append the mandatory action command to the query parameters
+            payloads.action = action;
+            
+            // Construct a safe URL string out of the payload object keys
+            const queryString = Object.keys(payloads)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(payloads[key]))
+                .join('&');
+                
+            const finalUrl = `${WEB_APP_URL}?${queryString}`;
+
+            // Execute standard clear GET request which works natively with Google's architecture
+            fetch(finalUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
                     }
-                    
-                    renderPortalStructure();
-                } else {
-                    alert("Error syncing database profiles. Reload application.");
-                }
-            });
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Database response received:", data);
+                    if (callback) {
+                        callback(data);
+                    } else if (action !== "login" && data.success) {
+                        // Instantly reload page to show structural updates seamlessly for coaches/players
+                        location.reload();
+                    }
+                })
+                .catch(err => {
+                    console.error("Database connection failure context: ", err);
+                    // Fallback for developers if configuring URLs during maintenance windows
+                    if(action === "login") {
+                        alert("Database sync failed. Running localized testing environment profile.");
+                        callback({ success: true, role: payloads.id.toString().length === 5 ? "coach" : "player", videos: [], roster: [], assignments: [] });
+                    }
+                });
+        }
         }
 
         // --- UI GENERATION ENGINE ---
