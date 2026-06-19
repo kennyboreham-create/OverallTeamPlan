@@ -199,17 +199,22 @@
         let player;
         let VIDEO_ID = '-skgropbRuI';
 
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('coachVideo', {
-                videoId: VIDEO_ID,
-                playerVars: {
-                    'playsinline': 1,
-                    'rel': 0,
-                    'autoplay': 0, // CHANGED: Does not play automatically on load
-                    'theme': 'dark',
-                    'color': 'white'
-                }
-            });
+            function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', { // or whatever your iframe ID is
+            videoId: VIDEO_ID,
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange // <-- MAKE SURE THIS IS HERE
+            }
+        });
+    }
+
+        function onPlayerStateChange(event) {
+            // YT.PlayerState.ENDED equals 0
+            if (event.data === YT.PlayerState.ENDED) {
+                player.seekTo(0);
+                player.playVideo();
+            }
         }
 
         function jumpTo(start, stop = null) {
@@ -268,34 +273,25 @@
                 modal.style.right = "auto"; 
             }
 
-            function mouseUpHandler() {
-                isDragging = false;
-                document.getElementById("coachVideo").style.pointerEvents = "auto";
-                document.removeEventListener("mousemove", mouseMoveHandler);
-                document.removeEventListener("mouseup", mouseUpHandler);
-            }
-        });
-        function playVideoOnLoop(newVideoId) {
-    if (player && typeof player.loadVideoById === 'function') {
-        // Update your global video ID variable
-        // (Assuming you have 'let VIDEO_ID' declared at the top)
-        if (typeof VIDEO_ID !== 'undefined') {
-            VIDEO_ID = newVideoId;
-        }
+                    function mouseUpHandler() {
+                        isDragging = false;
+                        document.getElementById("coachVideo").style.pointerEvents = "auto";
+                        document.removeEventListener("mousemove", mouseMoveHandler);
+                        document.removeEventListener("mouseup", mouseUpHandler);
+                    }
+                });
+            function playVideoOnLoop(newVideoId) {
+            if (player && typeof player.loadVideoById === 'function') {
+                VIDEO_ID = newVideoId; // Updated from 'let' variable earlier
 
-        // Load and play the new video with looping configurations
-        player.loadVideoById({
-            videoId: newVideoId,
-            startSeconds: 0,
-            playerVars: {
-                'loop': 1,
-                'playlist': newVideoId // Required by YouTube API to loop a single video
+                player.loadVideoById({
+                    videoId: newVideoId,
+                    startSeconds: 0
+                });
+            } else {
+                console.error("YouTube Player is not ready yet.");
             }
-        });
-    } else {
-        console.error("YouTube Player is not ready yet.");
-    }
-}
+        }
     </script>
 </head>
 <body>
