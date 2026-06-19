@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coach Assignment Tracker & Rewards</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #0b0f19; color: #e2e8f0; padding: 25px; margin: 0; }
+        header { background: #141b2d; padding: 20px; border-radius: 8px; border: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center;}
+        h1 { margin: 0; color: #ffffff; font-size: 1.8rem; }
+        .nav-btn { background: #38bdf8; color: #0b0f19; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; }
+        .nav-btn:hover { background: #7dd3fc; }
+        
+        .panel { background: #101726; border: 2px solid #1e293b; border-radius: 10px; padding: 20px; margin-top: 25px; }
+        h2 { color: #38bdf8; border-bottom: 2px solid #1e293b; padding-bottom: 8px; margin-top: 0; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: #141b2d; border-radius: 6px; overflow: hidden;}
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #1e293b; }
+        th { background: #1e293b; color: #ffffff; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px;}
+        
+        .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase;}
+        .status-done { background: #22c55e; color: #ffffff; }
+        .status-pending { background: #f59e0b; color: #0b0f19; }
+        
+        .reward-btn { background: #eab308; color: #0b0f19; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+        .reward-btn:hover { background: #facc15; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1>📊 Coach Assignment Tracker</h1>
+            <div style="color: #94a3b8; margin-top: 4px;">Review player progress and issue performance stars</div>
+        </div>
+        <a href="situations.html" class="nav-btn">⬅ Back to Video Hub</a>
+    </header>
+
+    <div class="panel">
+        <h2>Player Video Work History</h2>
+        <table id="logTable">
+            <thead>
+                <tr>
+                    <th>Jersey</th>
+                    <th>Player Name</th>
+                    <th>Assigned Clip Title</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="logTableBody">
+                <tr><td colspan="4" style="color:#94a3b8;">Syncing records...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="panel" style="text-align: center; padding: 40px 20px;">
+        <h2>Team Star Rewards Ledger</h2>
+        <p style="color: #94a3b8; max-width: 500px; margin: 10px auto 25px auto;">Select a player to inject reward metrics directly into their main database record profile.</p>
+        <button class="reward-btn" onclick="executeStarRewardRoutine()">⭐ Award Player Stars</button>
+    </div>
+
+    <script>
+        const WEB_APP_URL = "YOUR_DEPLOYED_GOOGLE_APPS_SCRIPT_URL_HERE";
+        let cachedRoster = [];
+
+        window.addEventListener("DOMContentLoaded", verifyAccessAndLoad);
+
+        function verifyAccessAndLoad() {
+            const activeId = localStorage.getItem("hockey_user_id");
+            
+            // Re-verify that user has an active, valid 5-digit Coach configuration session
+            if (!activeId || activeId.length !== 5) {
+                alert("Access Denied: You must be authenticated as a Coach to open this ledger.");
+                window.location.href = "situations.html";
+                return;
+            }
+
+            // Sync structural parameters from main login router profile
+            fetch(`${WEB_APP_URL}?action=login&id=${activeId}`)
+                .then(res => res.json())
+                .then(loginData => {
+                    if (loginData.success && loginData.role === "coach") {
+                        cachedRoster = loginData.roster || [];
+                        loadHistoricalLogTable();
+                    } else {
+                        window.location.href = "situations.html";
+                    }
+                }).catch(() => alert("Connection error compiling profile schemas."));
+        }
+
+        function loadHistoricalLogTable() {
+            fetch(`${WEB_APP_URL}?action=getAssignmentLogs`)
+                .then(res => res.json())
+                .then(data => {
+                    if(data.success) {
+                        const tbody = document.getElementById("logTableBody");
+                        tbody.innerHTML = "";
+                        
+                        if(data.assignments.length === 0) {
+                            tbody.innerHTML = `<tr><td colspan="4" style="color:#94a3b8; text-align:center;">No videos assigned yet.</td></tr>`;
+                            return;
+                        }
+
+                        data.assignments.forEach(row => {
+                            let tr = document.createElement("tr");
+                            let statusCell = row.isWatched ? 
+                                `<span class="status-badge status-done">Completed</span>` : 
+                                `<span class="status-badge status-pending">Assigned</span>`;
+
+                            tr.innerHTML = `
+                                <td><strong>#${row.jerseyNumber}</strong></td>
+                                <td>${row.playerName}</td>
+                                <td>🎬 ${row.videoTitle}</td>
+                                <td>${statusCell}</td>
+                            `;
+                            tbody.appendChild(tr);
+                        });
+                    }
+                });
+        }
+
+        function executeStarRewardRoutine() {
+            if(cachedRoster.length === 0) {
+                alert("Roster list not loaded yet. Try again in a moment.");
+                return;
+            }
+
+            let optionPrompt = cachedRoster.map(p => `#${p.jerseyNumber} - ${p.playerName}`).join("\n");
+            let chosenJersey = prompt(`Enter player jersey number to reward:\n\nAvailable Team Roster:\n${optionPrompt}`);
+            
+            if (!chosenJersey) return;
+            chosenJersey = chosenJersey.trim();
+
+            // Validate against active database layout rows
+            let valid = cachedRoster.some(p => p.jerseyNumber === chosenJersey);
+            if(!valid) {
+                alert("Invalid jersey number. Must select an active team player.");
+                return;
+            }
+
+            let starInput = prompt(`How many stars would you like to award to Player #${chosenJersey}?\n\nEnter: 1 or 2`);
+            if(!starInput) return;
+            
+            let amount = parseInt(starInput.trim());
+            if(amount !== 1 && amount !== 2) {
+                alert("Error: You can only award exactly 1 or 2 stars at a time.");
+                return;
+            }
+
+            // Send payload transaction parameters across to Google Core Sheets engine
+            fetch(`${WEB_APP_URL}?action=awardStars&jerseyNumber=${chosenJersey}&starCount=${amount}`)
+                .then(res => res.json())
+                .then(res => {
+                    if(res.success) {
+                        alert(`Successfully added ${amount} stars to Player #${chosenJersey}'s record!`);
+                        loadHistoricalLogTable();
+                    } else {
+                        alert("Database rejection message: " + res.error);
+                    }
+                }).catch(() => alert("Network exception triggered handling star execution routing."));
+        }
+    </script>
+</body>
+</html>
