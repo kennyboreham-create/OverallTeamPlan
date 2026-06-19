@@ -102,7 +102,7 @@
 
     <script>
         // --- GLOBAL SETTINGS ---
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx2YRS6_3nxE3ucDd59ZlWBo6rHbGpgxA__hhDquiCW4FRNirdNR8nUTzt5A_-eihEXCw/exec";
+        const WEB_APP_URL = "YOUR_DEPLOYED_GOOGLE_APPS_SCRIPT_URL_HERE";
         const VALID_JERSEYS = [9, 3, 36, 5, 74, 19, 18, 13, 31, 16, 8, 10, 12];
         const SYSTEM_ARCHITECTURE = {
             "Possession": ["breakouts", "regroups", "o-zone"],
@@ -119,6 +119,18 @@
         window.addEventListener("DOMContentLoaded", initializePortal);
 
         function initializePortal() {
+            // Check if there is an active session already saved in localStorage
+            const savedId = localStorage.getItem("hockey_user_id");
+            
+            if (savedId) {
+                console.log("[DEBUG] Found existing session for ID: " + savedId);
+                runLoginPipeline(parseInt(savedId));
+            } else {
+                promptForCredentials();
+            }
+        }
+
+        function promptForCredentials() {
             let promptActive = true;
             let userId = null;
 
@@ -137,7 +149,12 @@
                 }
             }
 
-            // Authenticate and sync with Database
+            // Save credentials to localStorage so they survive page reloads
+            localStorage.setItem("hockey_user_id", userId);
+            runLoginPipeline(userId);
+        }
+
+        function runLoginPipeline(userId) {
             fetchFromDatabase("login", { id: userId }, function(response) {
                 if (response && response.success) {
                     sessionUser.role = response.role;
@@ -146,18 +163,29 @@
                     
                     if (sessionUser.role === "coach") {
                         cachedRoster = response.roster || [];
-                        document.getElementById("userRow").innerText = "Coach Dashboard | ID: " + userId;
+                        document.getElementById("userRow").innerHTML = `
+                            Coach Dashboard | ID: ${userId} 
+                            <button onclick="executeLogout()" style="margin-left:15px; font-size:11px; padding:2px 6px;">Sign Out</button>
+                        `;
                     } else {
                         cachedAssignments = response.assignments || [];
-                        document.getElementById("userRow").innerText = "Player View | Jersey #" + userId;
-                        localStorage.setItem("jerseyNumber", userId);
+                        document.getElementById("userRow").innerHTML = `
+                            Player View | Jersey #${userId} 
+                            <button onclick="executeLogout()" style="margin-left:15px; font-size:11px; padding:2px 6px;">Sign Out</button>
+                        `;
                     }
                     
                     renderPortalStructure();
                 } else {
-                    alert("Error syncing database profiles. Falling back to local display.");
+                    alert("Error syncing database profiles. Clearing session.");
+                    executeLogout();
                 }
             });
+        }
+
+        function executeLogout() {
+            localStorage.removeItem("hockey_user_id");
+            location.reload();
         }
 
         // --- UI GENERATION ENGINE ---
@@ -214,7 +242,6 @@
                     if (sessionUser.role === "coach") {
                         let addBox = document.createElement("div");
                         addBox.className = "add-form";
-                        // Using unique IDs matching category names perfectly
                         let textId = "title-" + section.replace(/\s+/g, '') + "-" + sub.replace(/\s+/g, '');
                         let urlId = "url-" + section.replace(/\s+/g, '') + "-" + sub.replace(/\s+/g, '');
                         
@@ -243,7 +270,6 @@
                 .join('&');
                 
             const finalUrl = WEB_APP_URL + "?" + queryString;
-            console.log("[DEBUG] Fetching URL: " + finalUrl);
 
             fetch(finalUrl)
                 .then(res => {
@@ -255,7 +281,8 @@
                     if (data && data.success) {
                         if (callback) {
                             callback(data);
-                        } else if (action !== "login") {
+                        } else {
+                            // Automatically refreshes the UI smoothly to update links without prompting for credentials again
                             location.reload();
                         }
                     } else {
@@ -264,9 +291,7 @@
                 })
                 .catch(err => {
                     console.error("[DEBUG] Network Catch Error Triggered: ", err);
-                    // Fail-safe layout activation for initial configuration steps
                     if (action === "login") {
-                        console.log("[DEBUG] Activating local fallback layout mock dashboard.");
                         callback({ 
                             success: true, 
                             role: payloads.id.toString().length === 5 ? "coach" : "player", 
@@ -281,12 +306,11 @@
         // --- INTERACTIVE ACTIONS ---
         function trackWatchEvent(videoId) {
             if (sessionUser.role === "player") {
-                let playerNum = localStorage.getItem("jerseyNumber") || sessionUser.id;
-                
                 let tag = document.getElementById("tag-" + videoId);
                 if (tag) tag.style.display = "none";
 
-                fetchFromDatabase("watchVideo", { jersey: playerNum, videoId: videoId });
+                // Fires tracking off to Sheets silently in the background
+                fetchFromDatabase("watchVideo", { jersey: sessionUser.id, videoId: videoId });
             }
         }
 
