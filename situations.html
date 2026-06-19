@@ -196,11 +196,11 @@
     </style>
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-    let player;
+        let player;
         let VIDEO_ID = '-skgropbRuI';
-        let isClipSegment = false; // New flag to track if we are playing a timed clip
 
         function onYouTubeIframeAPIReady() {
+            // Target elements must accurately connect to the targeted DIV placeholder id: 'coachVideo'
             player = new YT.Player('coachVideo', { 
                 videoId: VIDEO_ID,
                 events: {
@@ -212,15 +212,8 @@
         function onPlayerStateChange(event) {
             // YT.PlayerState.ENDED equals 0
             if (event.data === YT.PlayerState.ENDED) {
-                // If it was a timed clip segment, pause it at the end marker instead of looping
-                if (isClipSegment) {
-                    player.pauseVideo();
-                    isClipSegment = false; // Reset the flag
-                } else {
-                    // Otherwise, it's a full background loop video, so rewind and play
-                    player.seekTo(0);
-                    player.playVideo();
-                }
+                player.seekTo(0);
+                player.playVideo();
             }
         }
 
@@ -233,9 +226,6 @@
                 
                 if (stop !== null) {
                     options.endSeconds = stop;
-                    isClipSegment = true; // Mark this as a timed clip segment
-                } else {
-                    isClipSegment = false; // Mark this as a full playback
                 }
 
                 player.cueVideoById(options);
@@ -251,6 +241,7 @@
 
         // Native JavaScript Draggable & Onload Setup
         document.addEventListener("DOMContentLoaded", () => {
+            // Trigger the onload notification pop-up
             alert("Click the play buttons to see examples. Drag the video panel around and resize it as needed. Enjoy exploring the F1-F2-F3 roles!");
 
             const modal = document.getElementById("draggableModal");
@@ -264,6 +255,7 @@
                 offsetX = e.clientX - modal.getBoundingClientRect().left;
                 offsetY = e.clientY - modal.getBoundingClientRect().top;
                 
+                // Disables iframe pointer tracking conflicts during window drag movements
                 document.getElementById("coachVideo").style.pointerEvents = "none";
                 
                 document.addEventListener("mousemove", mouseMoveHandler);
@@ -292,7 +284,6 @@
         function playVideoOnLoop(newVideoId) {
             if (player && typeof player.loadVideoById === 'function') {
                 VIDEO_ID = newVideoId; 
-                isClipSegment = false; // Reset clip tracking since this is a global loop track
 
                 player.loadVideoById({
                     videoId: newVideoId,
