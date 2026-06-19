@@ -197,7 +197,7 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         let player;
-        const VIDEO_ID = '-skgropbRuI';
+        let VIDEO_ID = '-skgropbRuI';
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('coachVideo', {
@@ -237,7 +237,7 @@
         // Native JavaScript Draggable & Onload Setup
         document.addEventListener("DOMContentLoaded", () => {
             // Trigger the onload notification pop-up
-            alert("Click the links and see examples. Drag the video panel around and resize it as needed. Enjoy exploring the F1-F2-F3 roles!");
+            alert("Click the play buttons to see examples. Drag the video panel around and resize it as needed. Enjoy exploring the F1-F2-F3 roles!");
 
             const modal = document.getElementById("draggableModal");
             const handle = modal.querySelector(".modal-handle");
