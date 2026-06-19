@@ -209,6 +209,11 @@
         });
     }
 
+            function onPlayerReady(event) {
+            // You can leave this blank! It just needs to exist so the error goes away.
+            console.log("Player is ready");
+        }
+
         function onPlayerStateChange(event) {
             // YT.PlayerState.ENDED equals 0
             if (event.data === YT.PlayerState.ENDED) {
