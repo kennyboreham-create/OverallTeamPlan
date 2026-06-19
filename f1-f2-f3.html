@@ -199,16 +199,15 @@
         let player;
         let VIDEO_ID = '-skgropbRuI';
 
-            function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', { // or whatever your iframe ID is
-            videoId: VIDEO_ID,
-            events: {
-                'onStateChange': onPlayerStateChange // <-- MAKE SURE THIS IS HERE
-            }
-        });
-    }
-
-        
+        function onYouTubeIframeAPIReady() {
+            // Target elements must accurately connect to the targeted DIV placeholder id: 'coachVideo'
+            player = new YT.Player('coachVideo', { 
+                videoId: VIDEO_ID,
+                events: {
+                    'onStateChange': onPlayerStateChange 
+                }
+            });
+        }
 
         function onPlayerStateChange(event) {
             // YT.PlayerState.ENDED equals 0
@@ -274,16 +273,17 @@
                 modal.style.right = "auto"; 
             }
 
-                    function mouseUpHandler() {
-                        isDragging = false;
-                        document.getElementById("coachVideo").style.pointerEvents = "auto";
-                        document.removeEventListener("mousemove", mouseMoveHandler);
-                        document.removeEventListener("mouseup", mouseUpHandler);
-                    }
-                });
-            function playVideoOnLoop(newVideoId) {
+            function mouseUpHandler() {
+                isDragging = false;
+                document.getElementById("coachVideo").style.pointerEvents = "auto";
+                document.removeEventListener("mousemove", mouseMoveHandler);
+                document.removeEventListener("mouseup", mouseUpHandler);
+            }
+        });
+
+        function playVideoOnLoop(newVideoId) {
             if (player && typeof player.loadVideoById === 'function') {
-                VIDEO_ID = newVideoId; // Updated from 'let' variable earlier
+                VIDEO_ID = newVideoId; 
 
                 player.loadVideoById({
                     videoId: newVideoId,
@@ -330,7 +330,7 @@
         <svg viewBox="0 0 24 24" width="10" height="10" style="fill: #121212; margin-left: 1px;">
             <path d="M8 5v14l11-7z"/>
         </svg>
-    </span></a></p></h3>
+    </span></a></h3>
         <p></p>
         <ul>
             <li><strong>Why?</strong><a onclick="jumpTo(26, 34)"> <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background-color: #00bcd4; border-radius: 50%; margin-right: 6px; vertical-align: middle;">
