@@ -102,7 +102,7 @@
 
     <script>
         // --- GLOBAL SETTINGS ---
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx2YRS6_3nxE3ucDd59ZlWBo6rHbGpgxA__hhDquiCW4FRNirdNR8nUTzt5A_-eihEXCw/exec";
+        const WEB_APP_URL = "YOUR_DEPLOYED_GOOGLE_APPS_SCRIPT_URL_HERE";
         const VALID_JERSEYS = [9, 3, 36, 5, 74, 19, 18, 13, 31, 16, 8, 10, 12];
         const SYSTEM_ARCHITECTURE = {
             "Possession": ["breakouts", "regroups", "o-zone"],
@@ -126,105 +126,78 @@
                 let input = prompt("Please enter your Player Jersey Number or Coach Access ID:");
                 if (!input) continue;
                 
-                userId = parseInt(input.trim());
-                // Valid checks: Either it's an explicitly allowed player jersey, or a 5-digit number (Coach)
-                if (VALID_JERSEYS.includes(userId) || (userId.toString().length === 5)) {
+                userId = input.trim();
+                let parsedId = parseInt(userId);
+                
+                if (VALID_JERSEYS.includes(parsedId) || (userId.length === 5)) {
                     promptActive = false;
+                    userId = parsedId;
                 } else {
                     alert("ID or Jersey number not verified on the active team roster. Try again!");
                 }
             }
 
-            // --- COMPLETE TROUBLESHOOTING & DEBUGGING WRAPPER ---
-            function fetchFromDatabase(action, payloads, callback) {
-                console.log(`%c[DEBUG] 🚀 Starting database request for action: "${action}"`, "color: #38bdf8; font-weight: bold;");
-                
-                payloads.action = action;
-                
-                // Construct the query string
-                const queryString = Object.keys(payloads)
-                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(payloads[key]))
-                    .join('&');
+            // Authenticate and sync with Database
+            fetchFromDatabase("login", { id: userId }, function(response) {
+                if (response && response.success) {
+                    sessionUser.role = response.role;
+                    sessionUser.id = userId;
+                    cachedVideos = response.videos || [];
                     
-                const finalUrl = `${WEB_APP_URL}?${queryString}`;
-                
-                console.log(`%c[DEBUG] 🔗 Attempting to ping URL:\n${finalUrl}`, "color: #94a3b8;");
-
-                // Start the network fetch timer
-                const startTime = performance.now();
-
-                fetch(finalUrl)
-                    .then(response => {
-                        const duration = (performance.now() - startTime).toFixed(2);
-                        console.log(`%c[DEBUG] 📡 Server responded in ${duration}ms. Status code: ${response.status} (${response.statusText})`, "color: #22c55e; font-weight: bold;");
-                        
-                        if (!response.ok) {
-                            throw new Error(`HTTP Error Status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log("%c[DEBUG] 📦 Raw Data received from Google Sheet:", "color: #eab308; font-weight: bold;", data);
-                        
-                        if (data.success) {
-                            console.log(`%c[DEBUG] ✅ Connection successful! Executing UI callback.`, "color: #22c55e;");
-                            if (callback) {
-                                callback(data);
-                            } else if (action !== "login") {
-                                console.log(`%c[DEBUG] 🔄 Action "${action}" finished successfully. Refreshing page...`, "color: #a855f7;");
-                                location.reload();
-                            }
-                        } else {
-                            console.error(`%c[DEBUG] ❌ Google Script executed, but returned success = false. Error message: ${data.error}`, "color: #ef4444; font-weight: bold;");
-                            alert(`Google Sheet Error: ${data.error}`);
-                        }
-                    })
-                    .catch(err => {
-                        console.error("%c[DEBUG] 🚨 CRITICAL CONNECTION FAILURE:", "color: #ef4444; font-weight: bold; font-size: 14px;", err);
-                        console.log("%c[DEBUG] 👉 Tip: Check if your WEB_APP_URL is completely accurate and deployed as 'Anyone'.", "color: #38bdf8; font-style: italic;");
-                        
-                        // Fallback environment trigger
-                        if(action === "login") {
-                            console.log("%c[DEBUG] ⚠️ Triggering local mock fallback so page doesn't freeze completely.", "color: #f97316;");
-                            callback({ success: true, role: payloads.id.toString().length === 5 ? "coach" : "player", videos: [], roster: [], assignments: [] });
-                        }
-                    });
-            }
+                    if (sessionUser.role === "coach") {
+                        cachedRoster = response.roster || [];
+                        document.getElementById("userRow").innerText = "Coach Dashboard | ID: " + userId;
+                    } else {
+                        cachedAssignments = response.assignments || [];
+                        document.getElementById("userRow").innerText = "Player View | Jersey #" + userId;
+                        localStorage.setItem("jerseyNumber", userId);
+                    }
+                    
+                    renderPortalStructure();
+                } else {
+                    alert("Error syncing database profiles. Falling back to local display.");
+                }
+            });
+        }
 
         // --- UI GENERATION ENGINE ---
         function renderPortalStructure() {
             const portal = document.getElementById("portalStructure");
-            portal.innerHTML = ""; // Clear loader references
+            if (!portal) return;
+            portal.innerHTML = ""; 
 
             for (const [section, subsections] of Object.entries(SYSTEM_ARCHITECTURE)) {
                 let sectionDom = document.createElement("section");
                 sectionDom.className = "main-section";
-                sectionDom.innerHTML = `<h2>${section}</h2>`;
+                sectionDom.innerHTML = "<h2>" + section + "</h2>";
 
-                subsections.forEach(sub => {
+                subsections.forEach(function(sub) {
                     let subDom = document.createElement("div");
                     subDom.className = "subsection";
-                    subDom.innerHTML = `<h2>${sub.toUpperCase()}</h2>`;
+                    subDom.innerHTML = "<h2>" + sub.toUpperCase() + "</h2>";
 
-                    // Filter and render videos bound to this specific category mapping
                     let targetedVideos = cachedVideos.filter(v => v.section === section && v.subsection === sub);
                     
-                    targetedVideos.forEach(vid => {
+                    targetedVideos.forEach(function(vid) {
                         let itemDom = document.createElement("div");
                         itemDom.className = "video-item";
                         
-                        // Setup h3 structure containing link referencing videoUrl directly
                         let hasAssignment = cachedAssignments.includes(vid.videoId);
+                        
+                        let playerTagHtml = "";
+                        if (sessionUser.role === 'player' && hasAssignment) {
+                            playerTagHtml = '<span class="assigned-tag" id="tag-' + vid.videoId + '">ASSIGNED</span>';
+                        }
+
                         itemDom.innerHTML = `
                             <h3>
                                 <a href="${vid.youtubeUrl}" target="_blank" onclick="trackWatchEvent('${vid.videoId}')">
                                     🎬 ${vid.title}
                                 </a>
                             </h3>
-                            ${(sessionUser.role === 'player' && hasAssignment) ? `<span class="assigned-tag" id="tag-${vid.videoId}">ASSIGNED</span>` : ''}
+                            ${playerTagHtml}
                         `;
 
-                        // If coach mode is enabled, add execution buttons
                         if (sessionUser.role === "coach") {
                             let ctrlWrapper = document.createElement("span");
                             ctrlWrapper.className = "coach-buttons";
@@ -238,13 +211,16 @@
                         subDom.appendChild(itemDom);
                     });
 
-                    // Add content-addition panels inside specific channels for coaches
                     if (sessionUser.role === "coach") {
                         let addBox = document.createElement("div");
                         addBox.className = "add-form";
+                        // Using unique IDs matching category names perfectly
+                        let textId = "title-" + section.replace(/\s+/g, '') + "-" + sub.replace(/\s+/g, '');
+                        let urlId = "url-" + section.replace(/\s+/g, '') + "-" + sub.replace(/\s+/g, '');
+                        
                         addBox.innerHTML = `
-                            <input type="text" id="title-${section}-${sub}" placeholder="Video Title">
-                            <input type="text" id="url-${section}-${sub}" placeholder="YouTube Link URL">
+                            <input type="text" id="${textId}" placeholder="Video Title">
+                            <input type="text" id="${urlId}" placeholder="YouTube Link URL">
                             <button onclick="executeAddVideo('${section}', '${sub}')">＋ Save Video</button>
                         `;
                         subDom.appendChild(addBox);
@@ -259,32 +235,55 @@
 
         // --- BACKEND ROUTING WRAPPER ---
         function fetchFromDatabase(action, payloads, callback) {
+            console.log("[DEBUG] Starting database request for: " + action);
             payloads.action = action;
-            fetch(WEB_APP_URL, {
-                method: "POST",
-                mode: "no-cors", // Bypasses browser strict script security for standalone HTML deployments
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payloads)
-            })
-            // no-cors limits internal inspection; handle state refreshes smoothly
-            setTimeout(() => { if(action !== "login") location.reload(); }, 800); 
-            if(callback && action === "login") {
-                // For initial setup bypass no-cors restriction logic context if testing directly via mock setup hooks
-                // Replace this block with typical deployment headers if hosted within full domain servers.
-                fetch(WEB_APP_URL + "?action=get").then(res => res.json()).then(d => callback(d)).catch(()=> {
-                   // Fallback logic for mock simulation purposes during deployment transitions
-                   callback({ success: true, role: payloads.id.toString().length === 5 ? "coach" : "player", videos: [], roster: [], assignments: [] });
+            
+            const queryString = Object.keys(payloads)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(payloads[key]))
+                .join('&');
+                
+            const finalUrl = WEB_APP_URL + "?" + queryString;
+            console.log("[DEBUG] Fetching URL: " + finalUrl);
+
+            fetch(finalUrl)
+                .then(res => {
+                    if (!res.ok) throw new Error("HTTP Status Error " + res.status);
+                    return res.json();
+                })
+                .then(data => {
+                    console.log("[DEBUG] Server Response: ", data);
+                    if (data && data.success) {
+                        if (callback) {
+                            callback(data);
+                        } else if (action !== "login") {
+                            location.reload();
+                        }
+                    } else {
+                        console.error("[DEBUG] Google Apps Script flagged error:", data.error);
+                    }
+                })
+                .catch(err => {
+                    console.error("[DEBUG] Network Catch Error Triggered: ", err);
+                    // Fail-safe layout activation for initial configuration steps
+                    if (action === "login") {
+                        console.log("[DEBUG] Activating local fallback layout mock dashboard.");
+                        callback({ 
+                            success: true, 
+                            role: payloads.id.toString().length === 5 ? "coach" : "player", 
+                            videos: [], 
+                            roster: [], 
+                            assignments: [] 
+                        });
+                    }
                 });
-            }
         }
 
-        // --- ACTIONS ---
+        // --- INTERACTIVE ACTIONS ---
         function trackWatchEvent(videoId) {
             if (sessionUser.role === "player") {
                 let playerNum = localStorage.getItem("jerseyNumber") || sessionUser.id;
                 
-                // Remove the dynamic assignment badge visually
-                let tag = document.getElementById(`tag-${videoId}`);
+                let tag = document.getElementById("tag-" + videoId);
                 if (tag) tag.style.display = "none";
 
                 fetchFromDatabase("watchVideo", { jersey: playerNum, videoId: videoId });
@@ -292,28 +291,31 @@
         }
 
         function triggerAssignmentRoutine(videoId) {
-            let options = cachedRoster.map(p => `#${p.jerseyNumber} - ${p.playerName}`).join("\n");
-            let targetJersey = prompt(`Enter player jersey number to assign this clip:\n\nAvailable Roster:\n${options}`);
+            let options = cachedRoster.map(p => "#" + p.jerseyNumber + " - " + p.playerName).join("\n");
+            let targetJersey = prompt("Enter player jersey number to assign this clip:\n\nAvailable Roster:\n" + options);
             
             if (targetJersey) {
-                fetchFromDatabase("assignVideo", { jerseyNumber: parseInt(targetJersey), videoId: videoId });
-                alert(`Video assigned successfully to player #${targetJersey}`);
+                fetchFromDatabase("assignVideo", { jerseyNumber: targetJersey.trim(), videoId: videoId });
+                alert("Assignment request sent for player #" + targetJersey);
             }
         }
 
         function executeAddVideo(sec, sub) {
-            let titleVal = document.getElementById(`title-${sec}-${sub}`).value;
-            let urlVal = document.getElementById(`url-${sec}-${sub}`).value;
+            let textId = "title-" + sec.replace(/\s+/g, '') + "-" + sub.replace(/\s+/g, '');
+            let urlId = "url-" + sec.replace(/\s+/g, '') + "-" + sub.replace(/\s+/g, '');
+            
+            let titleVal = document.getElementById(textId).value;
+            let urlVal = document.getElementById(urlId).value;
 
             if (!titleVal || !urlVal) {
-                alert("Both title box and link content components are required.");
+                alert("Both title and video link fields are required.");
                 return;
             }
             fetchFromDatabase("addVideo", { section: sec, subsection: sub, title: titleVal, youtubeUrl: urlVal });
         }
 
         function executeSoftDelete(videoId) {
-            if (confirm("Are you sure you want to remove this link from the player platform?")) {
+            if (confirm("Are you sure you want to remove this video from the player panel?")) {
                 fetchFromDatabase("deleteVideo", { videoId: videoId });
             }
         }
