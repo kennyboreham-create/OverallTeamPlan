@@ -135,45 +135,61 @@
                 }
             }
 
-            // --- NEW & IMPROVED BACKEND ROUTING WRAPPER ---
-        function fetchFromDatabase(action, payloads, callback) {
-            // Append the mandatory action command to the query parameters
-            payloads.action = action;
-            
-            // Construct a safe URL string out of the payload object keys
-            const queryString = Object.keys(payloads)
-                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(payloads[key]))
-                .join('&');
+            // --- COMPLETE TROUBLESHOOTING & DEBUGGING WRAPPER ---
+            function fetchFromDatabase(action, payloads, callback) {
+                console.log(`%c[DEBUG] 🚀 Starting database request for action: "${action}"`, "color: #38bdf8; font-weight: bold;");
                 
-            const finalUrl = `${WEB_APP_URL}?${queryString}`;
+                payloads.action = action;
+                
+                // Construct the query string
+                const queryString = Object.keys(payloads)
+                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(payloads[key]))
+                    .join('&');
+                    
+                const finalUrl = `${WEB_APP_URL}?${queryString}`;
+                
+                console.log(`%c[DEBUG] 🔗 Attempting to ping URL:\n${finalUrl}`, "color: #94a3b8;");
 
-            // Execute standard clear GET request which works natively with Google's architecture
-            fetch(finalUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log("Database response received:", data);
-                    if (callback) {
-                        callback(data);
-                    } else if (action !== "login" && data.success) {
-                        // Instantly reload page to show structural updates seamlessly for coaches/players
-                        location.reload();
-                    }
-                })
-                .catch(err => {
-                    console.error("Database connection failure context: ", err);
-                    // Fallback for developers if configuring URLs during maintenance windows
-                    if(action === "login") {
-                        alert("Database sync failed. Running localized testing environment profile.");
-                        callback({ success: true, role: payloads.id.toString().length === 5 ? "coach" : "player", videos: [], roster: [], assignments: [] });
-                    }
-                });
-        }
-        }
+                // Start the network fetch timer
+                const startTime = performance.now();
+
+                fetch(finalUrl)
+                    .then(response => {
+                        const duration = (performance.now() - startTime).toFixed(2);
+                        console.log(`%c[DEBUG] 📡 Server responded in ${duration}ms. Status code: ${response.status} (${response.statusText})`, "color: #22c55e; font-weight: bold;");
+                        
+                        if (!response.ok) {
+                            throw new Error(`HTTP Error Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log("%c[DEBUG] 📦 Raw Data received from Google Sheet:", "color: #eab308; font-weight: bold;", data);
+                        
+                        if (data.success) {
+                            console.log(`%c[DEBUG] ✅ Connection successful! Executing UI callback.`, "color: #22c55e;");
+                            if (callback) {
+                                callback(data);
+                            } else if (action !== "login") {
+                                console.log(`%c[DEBUG] 🔄 Action "${action}" finished successfully. Refreshing page...`, "color: #a855f7;");
+                                location.reload();
+                            }
+                        } else {
+                            console.error(`%c[DEBUG] ❌ Google Script executed, but returned success = false. Error message: ${data.error}`, "color: #ef4444; font-weight: bold;");
+                            alert(`Google Sheet Error: ${data.error}`);
+                        }
+                    })
+                    .catch(err => {
+                        console.error("%c[DEBUG] 🚨 CRITICAL CONNECTION FAILURE:", "color: #ef4444; font-weight: bold; font-size: 14px;", err);
+                        console.log("%c[DEBUG] 👉 Tip: Check if your WEB_APP_URL is completely accurate and deployed as 'Anyone'.", "color: #38bdf8; font-style: italic;");
+                        
+                        // Fallback environment trigger
+                        if(action === "login") {
+                            console.log("%c[DEBUG] ⚠️ Triggering local mock fallback so page doesn't freeze completely.", "color: #f97316;");
+                            callback({ success: true, role: payloads.id.toString().length === 5 ? "coach" : "player", videos: [], roster: [], assignments: [] });
+                        }
+                    });
+            }
 
         // --- UI GENERATION ENGINE ---
         function renderPortalStructure() {
