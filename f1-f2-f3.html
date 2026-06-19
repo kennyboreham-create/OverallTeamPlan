@@ -203,16 +203,12 @@
         player = new YT.Player('player', { // or whatever your iframe ID is
             videoId: VIDEO_ID,
             events: {
-                'onReady': onPlayerReady,
                 'onStateChange': onPlayerStateChange // <-- MAKE SURE THIS IS HERE
             }
         });
     }
 
-            function onPlayerReady(event) {
-            // You can leave this blank! It just needs to exist so the error goes away.
-            console.log("Player is ready");
-        }
+        
 
         function onPlayerStateChange(event) {
             // YT.PlayerState.ENDED equals 0
