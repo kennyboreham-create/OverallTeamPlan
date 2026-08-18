@@ -105,6 +105,60 @@
             width: 80%;
         }
 
+        /* Image Display Section Styling */
+        .section-img {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .section-img img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+        }
+
+        /* ==========================================
+           VIDEO GRID & RESPONSIVE EMBEDS
+           ========================================== */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .video-card {
+            background: #141b2d;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            background: #000;
+        }
+
+        .video-wrapper div {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-card-title {
+            padding: 12px 16px;
+            margin: 0;
+            font-size: 1rem;
+            color: #38bdf8;
+            border-top: 1px solid #1e293b;
+        }
+
         /* ==========================================
            BACK TO TOP BUTTON
            ========================================== */
@@ -134,48 +188,12 @@
             color: #7dd3fc;
             transform: translateY(-3px); 
         }
-
-        /* Container for the hockey rinks */
-.rink-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px 0;
-    margin-top: 15px;
-}
-
-/* Individual card styling to blend with any color scheme */
-.rink-card {
-    background-color: #ffffff; /* Keeps the background pristine white for the rinks */
-    border: 1px solid rgba(0, 0, 0, 0.1); /* Soft border that adapts to light/dark backdrops */
-    border-radius: 8px;
-    padding: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Subtle depth */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Hover effect for an interactive feel */
-.rink-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Responsive image settings */
-.rink-img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    border-radius: 4px;
-}
     </style>
 </head>
 <body>
 
     <!-- STICKY HORIZONTAL NAVIGATION -->
- <nav class="navbar">
+    <nav class="navbar">
         <ul class="nav-list">
             <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
             <li class="nav-item"><a href="possession.html" class="nav-link">Possession</a></li>
@@ -187,31 +205,87 @@
             <li class="nav-item"><a href="d-zone.html" class="nav-link">D-Zone</a></li>
             <li class="nav-item"><a href="breakouts.html" class="nav-link">Breakouts</a></li>
             <li class="nav-item"><a href="regrouping.html" class="nav-link">Regrouping</a></li>
-           
         </ul>
     </nav>
 
     <h1>O-Zone</h1>
 
     <!-- SECTION 1 -->
-      <section id="forecheck-principles">
+    <section id="forecheck-principles">
         <h2>Triangle</h2>
-        <h3></h3>
-        <p></p>
-        
-    </section><br><br>
+        <h3>Offensive Zone Positioning</h3>
+        <p>Creating triangular support structures gives the puck carrier multiple passing options and creates depth in the offensive zone.</p>
+    </section>
 
-     <div class="section" id="d1d2">
-        
-        <img src="img/d-zone1.png"D1 D2">
+    <div class="section-img" id="d1d2-1">
+        <img src="img/Triangle.png" alt="Triangle Setup 1">
     </div>
-    
+
+    <div class="section-img" id="d1d2-2">
+        <img src="img/Triangle1.png" alt="Triangle Setup 2">
+    </div>
+
+    <div class="section-img" id="d1d2-3">
+        <img src="img/Triangle2.png" alt="Triangle Setup 3">
+    </div>
+
+    <!-- SECTION 2 -->
+    <section id="forecheck-options">
+        <h2>Options</h2>
+        <h3>There are many options when spreading out in a triangle.</h3>
+        <p>If you do not have the puck, move around and give your teammate more options.</p>
+        
+        <!-- CONTINUOUS PLAY ON SCROLL VIDEO GRID -->
+        <div class="video-grid">
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <div class="yt-player" data-video-id="dQw4w9WgXcQ"></div>
+                </div>
+                <h3 class="video-card-title">Option 1: Low-to-High Pass</h3>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <div class="yt-player" data-video-id="dQw4w9WgXcQ"></div>
+                </div>
+                <h3 class="video-card-title">Option 2: Give and Go</h3>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <div class="yt-player" data-video-id="dQw4w9WgXcQ"></div>
+                </div>
+                <h3 class="video-card-title">Option 3: Net-Front Screen</h3>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <div class="yt-player" data-video-id="dQw4w9WgXcQ"></div>
+                </div>
+                <h3 class="video-card-title">Option 4: Rim to Far Wall</h3>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <div class="yt-player" data-video-id="dQw4w9WgXcQ"></div>
+                </div>
+                <h3 class="video-card-title">Option 5: High Slot Cut</h3>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <div class="yt-player" data-video-id="dQw4w9WgXcQ"></div>
+                </div>
+                <h3 class="video-card-title">Option 6: Below Goal Line Cycle</h3>
+            </div>
+        </div>
+    </section>
 
     <!-- FLOATING GO UP ICON -->
     <div id="backToTopBtn" onclick="scrollToTop()">▲</div>
 
     <script>
-        // Listen to the window scroll event to toggle button visibility
+        // Back to Top Button Logic
         window.onscroll = function() {
             const btn = document.getElementById("backToTopBtn");
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
@@ -221,13 +295,68 @@
             }
         };
 
-        // Smooth scroll functionality back to index zero coordinates
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
                 behavior: "smooth"
             });
         }
+
+        // ==========================================
+        // YOUTUBE IFRAME API & INTERSECTION OBSERVER
+        // ==========================================
+        
+        // Load YouTube API asynchronously
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        const players = new Map();
+
+        // Triggered automatically when API script loads
+        function onYouTubeIframeAPIReady() {
+            const playerElements = document.querySelectorAll('.yt-player');
+
+            playerElements.forEach((el) => {
+                const videoId = el.dataset.videoId;
+                
+                new YT.Player(el, {
+                    videoId: videoId,
+                    playerVars: {
+                        autoplay: 0,
+                        controls: 1,
+                        mute: 1,           // Muted so browsers permit autoplay on scroll
+                        loop: 1,
+                        playlist: videoId, // Required by YouTube API to enable single-video looping
+                        modestbranding: 1,
+                        playsinline: 1
+                    },
+                    events: {
+                        onReady: (event) => {
+                            players.set(event.target.getIframe(), event.target);
+                            observer.observe(event.target.getIframe());
+                        }
+                    }
+                });
+            });
+        }
+
+        // Intersection Observer controls play/pause based on scroll visibility
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const player = players.get(entry.target);
+                if (!player) return;
+
+                if (entry.isIntersecting) {
+                    player.playVideo();
+                } else {
+                    player.pauseVideo();
+                }
+            });
+        }, {
+            threshold: 0.4 // Video starts playing when 40% visible in the viewport
+        });
     </script>
 
 </body>
