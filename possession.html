@@ -84,7 +84,7 @@
         .content-section {
             padding: 40px 0;
             border-bottom: 1px solid var(--border-color);
-            scroll-margin-top: 20px; /* Smooth scrolling offset */
+            scroll-margin-top: 20px;
         }
 
         .content-section:last-child {
@@ -129,7 +129,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            margin: 0 -20px 20px -20px; /* Extends flush to the page edges */
+            margin: 0 -20px 20px -20px;
         }
 
         .nav-list {
@@ -162,7 +162,6 @@
             background-color: #1e293b;
         }
 
-        /* Underline Slide Effect on Hover */
         .nav-link::after {
             content: '';
             position: absolute;
@@ -179,7 +178,6 @@
             width: 80%;
         }
 
-        /* Active State Highlight for Current Page */
         .nav-item.active .nav-link {
             color: #38bdf8;
             background-color: #141b2d;
@@ -223,7 +221,6 @@
             color: #66ffa6;
         }
 
-        /* NEW: Puck Battles Link Styling (Matches Battle Mode Yellow) */
         .puck-battles-link {
             color: #ff9800;
             text-decoration: none;
@@ -237,7 +234,7 @@
 
         /* Modal Overlay Background */
         .modal-overlay {
-            display: none; /* Hidden by default */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -269,7 +266,6 @@
             overflow-y: auto;
         }
 
-        /* Show states triggered by JS */
         .modal-overlay.active {
             display: flex;
             opacity: 1;
@@ -278,7 +274,6 @@
             transform: translateY(0);
         }
 
-        /* Close Button */
         .modal-close {
             position: absolute;
             top: 15px;
@@ -292,7 +287,6 @@
             color: #fff;
         }
 
-        /* Typography & Layout inside Modal */
         .modal-title {
             font-size: 1.6rem;
             margin-top: 0;
@@ -330,7 +324,6 @@
             color: #ccc;
         }
 
-        /* Footer & Decision Sequence Steps */
         .modal-footer {
             background-color: #111;
             border-radius: 8px;
@@ -382,7 +375,6 @@
             color: #666;
         }
 
-        /* Logic Badges */
         .badge {
             padding: 3px 8px;
             border-radius: 4px;
@@ -394,7 +386,6 @@
         .badge-pass { background-color: rgba(33, 150, 243, 0.2); color: #2196f3; border: 1px solid #2196f3; }
         .badge-protect { background-color: rgba(255, 152, 0, 0.2); color: #ff9800; border: 1px solid #ff9800; text-transform: none; }
 
-        /* Responsive Adjustments */
         @media (max-width: 600px) {
             .modal-grid {
                 grid-template-columns: 1fr;
@@ -406,19 +397,16 @@
             .arrow { display: none; }
         }
 
-        /* Custom width for this specific tactical modal */
         .systems-modal-width {
             max-width: 800px !important;
         }
 
-        /* Grid Layout */
         .systems-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
-        /* Individual System Cards */
         .system-card {
             background-color: #111111;
             border-radius: 8px;
@@ -438,7 +426,6 @@
             color: #eeeeee;
         }
 
-        /* List Style resets */
         .system-list {
             list-style: none;
             padding: 0;
@@ -458,7 +445,6 @@
             margin-bottom: 0;
         }
 
-        /* Color Coding Themes */
         .mode-possession { border-top: 4px solid #4caf50; }
         .mode-possession .mode-badge { background: rgba(76, 175, 80, 0.15); color: #4caf50; }
         .mode-possession .system-list li { border-left-color: #4caf50; }
@@ -506,7 +492,6 @@
             max-width: 600px !important;
         }
 
-        /* Tactical Checklist Styling */
         .tactical-checklist {
             list-style: none;
             padding: 0;
@@ -576,7 +561,7 @@
             transform: translateY(0);
         }
 
-        /* NEW: YouTube Video Modal Specific Styles */
+        /* YouTube Video Modal Specific Styles */
         .video-list {
             list-style: none;
             padding: 0;
@@ -599,7 +584,7 @@
 
         .video-list li:hover {
             background: #1a1a1a;
-            border-color: #ff9800; /* Match battle mode color */
+            border-color: #ff9800;
         }
         
         .video-list li span:last-child {
@@ -693,7 +678,7 @@
                 noPuckModal.classList.remove('active');
             });
 
-            // 4. NEW: Puck Battles YouTube Modal
+            // 4. Puck Battles YouTube Modal (FIXED EMBED FORMAT)
             const puckBattlesModal = document.getElementById('puckBattlesModal');
             const openPuckBattlesLink = document.getElementById('openPuckBattlesModalLink');
             const closePuckBattlesBtn = document.getElementById('closePuckBattlesModal');
@@ -704,15 +689,14 @@
             const pbYoutubeIframe = document.getElementById('pbYoutubeIframe');
             const pbBackBtn = document.getElementById('pbBackBtn');
 
-            // Array of YouTube Videos (Edit these links as needed)
             const pbVideos = [
                 {
                     title: "Puck Protection & Wall Battle Techniques",
                     youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
                 },
                 {
-                    title: "Ideas for winning 1v1 Battles on the wall",
-                    youtubeUrl: "https://www.google.com/search?q=loose+puck+in+hockey.+2+on+the+pile+system&rlz=1C1CHBF_enCA900CA900&oq=loose+puck+in+hockey.+2+on+the+pile+system&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQABjvBTIKCAIQABiiBBiJBTIKCAMQABiABBiiBDIKCAQQABiiBBiJBdIBCTEyNTUwajBqN6gCALACAA&sourceid=chrome&source=chrome.ob&ie=UTF-8#fpstate=ive&vld=cid:0ebb454d,vid:FtXlcBl3D2I,st:0"
+                    title: "Winning 1v1 Battles in the Corner",
+                    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
                 },
                 {
                     title: "Body Position & Stick Checks",
@@ -720,10 +704,11 @@
                 }
             ];
 
-            // Helper to extract YouTube ID
+            // Updated Regex Video ID extractor
             function extractVideoId(url) {
-                const match = url.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
-                return match ? match[1] : url;
+                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                const match = url.match(regExp);
+                return (match && match[2].length === 11) ? match[2] : url;
             }
 
             // Populate Video List dynamically
@@ -732,7 +717,8 @@
                 li.innerHTML = `<span>${video.title}</span> <span>▶ Play</span>`;
                 li.addEventListener('click', () => {
                     const videoId = extractVideoId(video.youtubeUrl);
-                    pbYoutubeIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                    // Updated to youtube-nocookie embed URL with JS API enabled
+                    pbYoutubeIframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
                     pbListView.style.display = 'none';
                     pbPlayerView.style.display = 'block';
                 });
@@ -751,16 +737,15 @@
             // Close Modal
             closePuckBattlesBtn.addEventListener('click', () => {
                 puckBattlesModal.classList.remove('active');
-                pbYoutubeIframe.src = ''; // stop video
+                pbYoutubeIframe.src = ''; 
             });
 
             // Back to List Button
             pbBackBtn.addEventListener('click', () => {
                 pbListView.style.display = 'block';
                 pbPlayerView.style.display = 'none';
-                pbYoutubeIframe.src = ''; // stop video
+                pbYoutubeIframe.src = ''; 
             });
-
 
             // Global Background Overlay click closure for all modals
             window.addEventListener('click', (e) => {
@@ -775,7 +760,7 @@
                 }
                 if (e.target === puckBattlesModal) {
                     puckBattlesModal.classList.remove('active');
-                    pbYoutubeIframe.src = ''; // stop video
+                    pbYoutubeIframe.src = ''; 
                 }
             });
         });
@@ -794,7 +779,6 @@
             <li class="nav-item"><a href="d-zone.html" class="nav-link">D-Zone</a></li>
             <li class="nav-item"><a href="breakouts.html" class="nav-link">Breakouts</a></li>
             <li class="nav-item"><a href="regrouping.html" class="nav-link">Regrouping</a></li>
-           
         </ul>
     </nav>
     
@@ -844,7 +828,6 @@
         <h3>What to know about loose 50-50 puck battles</h3>
         <ul>
             <li><a href="#when-to-attack">When to attack</a></li>
-            <!-- NEW: The updated trigger for the YouTube Modal -->
             <li><a href="#" id="openPuckBattlesModalLink" class="puck-battles-link">How to win puck battles</a></li>
             <li><a href="#support-teammates">How to support teammates in puck battles</a></li>
             <li><a href="#" id="openSystemsModalLink" class="systems-link">What system to use</a></li>
@@ -990,11 +973,14 @@
             </ul>
         </div>
         
-        
+        <div class="modal-video-cta">
+            <p>Want to see these concepts in action?</p>
+            <a href="nopuck.html" class="video-btn">Click to check out videos</a>
+        </div>
     </div>
 </div>
 
-<!-- NEW: PUCK BATTLES YOUTUBE MODAL -->
+<!-- PUCK BATTLES YOUTUBE MODAL -->
 <div id="puckBattlesModal" class="modal-overlay">
     <div class="modal-content">
         <span class="modal-close" id="closePuckBattlesModal">&times;</span>
