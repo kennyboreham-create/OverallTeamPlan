@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hockey Team Training Dashboard</title>
+    <title>U13 Goalie Development - Hockey Dashboard</title>
     <style>
         :root {
             --bg-primary: #121212;
@@ -120,9 +120,7 @@
             scroll-behavior: smooth;
         }
 
-        /* ==========================================
-           HORIZONTAL NAVIGATION BAR (DARK SCHEME)
-           ========================================== */
+        /* HORIZONTAL NAVIGATION BAR */
         .navbar {
             background-color: #101726; 
             border-bottom: 1px solid #1e293b;
@@ -386,112 +384,6 @@
         .badge-pass { background-color: rgba(33, 150, 243, 0.2); color: #2196f3; border: 1px solid #2196f3; }
         .badge-protect { background-color: rgba(255, 152, 0, 0.2); color: #ff9800; border: 1px solid #ff9800; text-transform: none; }
 
-        @media (max-width: 600px) {
-            .modal-grid {
-                grid-template-columns: 1fr;
-            }
-            .decision-steps li {
-                flex-wrap: wrap;
-                gap: 5px;
-            }
-            .arrow { display: none; }
-        }
-
-        .systems-modal-width {
-            max-width: 800px !important;
-        }
-
-        .systems-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .system-card {
-            background-color: #111111;
-            border-radius: 8px;
-            border: 1px solid #252525;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .system-header {
-            margin-bottom: 15px;
-        }
-
-        .system-header h3 {
-            margin: 8px 0 0 0;
-            font-size: 1.1rem;
-            color: #eeeeee;
-        }
-
-        .system-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .system-list li {
-            padding: 10px 12px;
-            background-color: #181818;
-            margin-bottom: 8px;
-            border-radius: 4px;
-            font-size: 0.95rem;
-            color: #cccccc;
-            border-left: 3px solid #444;
-        }
-        .system-list li:last-child {
-            margin-bottom: 0;
-        }
-
-        .mode-possession { border-top: 4px solid #4caf50; }
-        .mode-possession .mode-badge { background: rgba(76, 175, 80, 0.15); color: #4caf50; }
-        .mode-possession .system-list li { border-left-color: #4caf50; }
-
-        .mode-pressure { border-top: 4px solid #f44336; }
-        .mode-pressure .mode-badge { background: rgba(244, 67, 54, 0.15); color: #f44336; }
-        .mode-pressure .system-list li { border-left-color: #f44336; }
-
-        .mode-battle {
-            grid-column: span 2;
-            border-top: 4px solid #ff9800;
-        }
-        .mode-battle .mode-badge { background: rgba(255, 152, 0, 0.15); color: #ff9800; }
-        .mode-battle .system-list li { border-left-color: #ff9800; }
-
-        .battle-flex {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .mode-badge {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            padding: 3px 8px;
-            border-radius: 4px;
-            letter-spacing: 0.5px;
-        }
-
-        @media (max-width: 650px) {
-            .systems-grid {
-                grid-template-columns: 1fr;
-            }
-            .mode-battle {
-                grid-column: span 1;
-            }
-            .battle-flex {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .nopuck-modal-width {
-            max-width: 600px !important;
-        }
-
         .tactical-checklist {
             list-style: none;
             padding: 0;
@@ -525,43 +417,6 @@
             color: #ffffff;
         }
 
-        .modal-video-cta {
-            background: linear-gradient(135deg, #161616, #222222);
-            border: 1px solid #333333;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .modal-video-cta p {
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-            color: #aaaaaa;
-        }
-
-        .video-btn {
-            display: inline-block;
-            background-color: #00e676;
-            color: #000000;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: background-color 0.2s ease, transform 0.1s ease;
-        }
-
-        .video-btn:hover {
-            background-color: #66ffa6;
-            transform: translateY(-1px);
-        }
-
-        .video-btn:active {
-            transform: translateY(0);
-        }
-
-        /* YouTube Video Modal Specific Styles */
         .video-list {
             list-style: none;
             padding: 0;
@@ -636,138 +491,112 @@
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Decision Modal
-            const decisionModal = document.getElementById('decisionModal');
-            const openDecisionLink = document.getElementById('when-to-carry-pass');
-            const closeDecisionBtn = decisionModal.querySelector('.modal-close');
+            // 1. Stance & Movement Modal
+            const movementModal = document.getElementById('movementModal');
+            const openMovementLink = document.getElementById('openMovementLink');
+            const closeMovementBtn = document.getElementById('closeMovementBtn');
 
-            openDecisionLink.addEventListener('click', (e) => {
+            openMovementLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                decisionModal.classList.add('active');
+                movementModal.classList.add('active');
             });
 
-            closeDecisionBtn.addEventListener('click', () => {
-                decisionModal.classList.remove('active');
+            closeMovementBtn.addEventListener('click', () => {
+                movementModal.classList.remove('active');
             });
 
-            // 2. Systems Modal
-            const systemsModal = document.getElementById('systemsModal');
-            const openSystemsLink = document.getElementById('openSystemsModalLink');
-            const closeSystemsBtn = document.getElementById('closeSystemsModal');
+            // 2. Playing the Puck Modal
+            const puckPlayModal = document.getElementById('puckPlayModal');
+            const openPuckPlayLink = document.getElementById('openPuckPlayLink');
+            const closePuckPlayBtn = document.getElementById('closePuckPlayBtn');
 
-            openSystemsLink.addEventListener('click', (e) => {
+            openPuckPlayLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                systemsModal.classList.add('active');
+                puckPlayModal.classList.add('active');
             });
 
-            closeSystemsBtn.addEventListener('click', () => {
-                systemsModal.classList.remove('active');
+            closePuckPlayBtn.addEventListener('click', () => {
+                puckPlayModal.classList.remove('active');
             });
 
-            // 3. No Puck Modal
-            const noPuckModal = document.getElementById('noPuckModal');
-            const openNoPuckLink = document.getElementById('openNoPuckModalLink');
-            const closeNoPuckBtn = document.getElementById('closeNoPuckModal');
-
-            openNoPuckLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                noPuckModal.classList.add('active');
-            });
-
-            closeNoPuckBtn.addEventListener('click', () => {
-                noPuckModal.classList.remove('active');
-            });
-
-            // 4. Puck Battles YouTube Modal (FIXED EMBED FORMAT)
-            const puckBattlesModal = document.getElementById('puckBattlesModal');
-            const openPuckBattlesLink = document.getElementById('openPuckBattlesModalLink');
-            const closePuckBattlesBtn = document.getElementById('closePuckBattlesModal');
+            // 3. Goalie Video Tutorials Modal
+            const videoModal = document.getElementById('videoModal');
+            const openVideoLink = document.getElementById('openVideoLink');
+            const closeVideoBtn = document.getElementById('closeVideoBtn');
             
-            const pbListView = document.getElementById('pbListView');
-            const pbPlayerView = document.getElementById('pbPlayerView');
-            const pbVideoList = document.getElementById('pbVideoList');
-            const pbYoutubeIframe = document.getElementById('pbYoutubeIframe');
-            const pbBackBtn = document.getElementById('pbBackBtn');
+            const gListView = document.getElementById('gListView');
+            const gPlayerView = document.getElementById('gPlayerView');
+            const gVideoList = document.getElementById('gVideoList');
+            const gYoutubeIframe = document.getElementById('gYoutubeIframe');
+            const gBackBtn = document.getElementById('gBackBtn');
 
-            const pbVideos = [
+            const goalieVideos = [
                 {
-                    title: "Puck Protection",
+                    title: "U13 T-Push & Shuffle Drills",
                     youtubeUrl: "https://youtu.be/wx7Vs1537NA?si=cs0ZWSsh25OO-1Ot"
                 },
                 {
-                    title: "Don't give up",
+                    title: "Butterfly Recovery & Rebound Control",
                     youtubeUrl: "https://youtu.be/pXP9EafjJRs?si=5vEP7Oc0egQNJGTn"
                 },
                 {
-                    title: "Boards",
+                    title: "Playing the Puck Behind the Net (Trapezoid)",
                     youtubeUrl: "https://youtu.be/P0mRSQUaVJ8?si=43Pgb6OwIC__yuud"
                 }
             ];
 
-            // Updated Regex Video ID extractor
             function extractVideoId(url) {
                 const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
                 const match = url.match(regExp);
                 return (match && match[2].length === 11) ? match[2] : url;
             }
 
-            // Populate Video List dynamically
-            pbVideos.forEach((video) => {
+            goalieVideos.forEach((video) => {
                 const li = document.createElement('li');
-                li.innerHTML = `<span>${video.title}</span> <span>▶ Play</span>`;
+                li.innerHTML = `<span>${video.title}</span> <span>▶ Play Video</span>`;
                 li.addEventListener('click', () => {
                     const videoId = extractVideoId(video.youtubeUrl);
-                    // Updated to youtube-nocookie embed URL with JS API enabled
-                    pbYoutubeIframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
-                    pbListView.style.display = 'none';
-                    pbPlayerView.style.display = 'block';
+                    gYoutubeIframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
+                    gListView.style.display = 'none';
+                    gPlayerView.style.display = 'block';
                 });
-                pbVideoList.appendChild(li);
+                gVideoList.appendChild(li);
             });
 
-            // Open Modal
-            openPuckBattlesLink.addEventListener('click', (e) => {
+            openVideoLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                puckBattlesModal.classList.add('active');
-                pbListView.style.display = 'block';
-                pbPlayerView.style.display = 'none';
-                pbYoutubeIframe.src = ''; 
+                videoModal.classList.add('active');
+                gListView.style.display = 'block';
+                gPlayerView.style.display = 'none';
+                gYoutubeIframe.src = ''; 
             });
 
-            // Close Modal
-            closePuckBattlesBtn.addEventListener('click', () => {
-                puckBattlesModal.classList.remove('active');
-                pbYoutubeIframe.src = ''; 
+            closeVideoBtn.addEventListener('click', () => {
+                videoModal.classList.remove('active');
+                gYoutubeIframe.src = ''; 
             });
 
-            // Back to List Button
-            pbBackBtn.addEventListener('click', () => {
-                pbListView.style.display = 'block';
-                pbPlayerView.style.display = 'none';
-                pbYoutubeIframe.src = ''; 
+            gBackBtn.addEventListener('click', () => {
+                gListView.style.display = 'block';
+                gPlayerView.style.display = 'none';
+                gYoutubeIframe.src = ''; 
             });
 
             // Global Background Overlay click closure for all modals
             window.addEventListener('click', (e) => {
-                if (e.target === decisionModal) {
-                    decisionModal.classList.remove('active');
-                }
-                if (e.target === systemsModal) {
-                    systemsModal.classList.remove('active');
-                }
-                if (e.target === noPuckModal) {
-                    noPuckModal.classList.remove('active');
-                }
-                if (e.target === puckBattlesModal) {
-                    puckBattlesModal.classList.remove('active');
-                    pbYoutubeIframe.src = ''; 
+                if (e.target === movementModal) movementModal.classList.remove('active');
+                if (e.target === puckPlayModal) puckPlayModal.classList.remove('active');
+                if (e.target === videoModal) {
+                    videoModal.classList.remove('active');
+                    gYoutubeIframe.src = ''; 
                 }
             });
         });
     </script>
 </head>
 <body>
-   <nav class="navbar">
+
+    <nav class="navbar">
         <ul class="nav-list">
             <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
             <li class="nav-item"><a href="possession.html" class="nav-link">Possession</a></li>
@@ -783,221 +612,163 @@
         </ul>
     </nav>
     
-
 <div class="container">
 
-    <h1 id="possession-top">Possession</h1>
+    <h1 id="goalies-top">Goalie Development (U13)</h1>
     
     <ul class="navigation-list">
-        <li><a href="#in-possession"><h2>In Possession</h2></a></li>
-        <li><a href="#out-of-possession"><h2>Pressure mode - (Out of Possession)</h2></a></li>
-        <li><a href="#loose-50-50"><h2>Battle mode - (Loose/50-50)</h2></a></li>
-        <li><a href="#when-to-attack"><h2>When to Attack</h2></a></li>
-        <li><a href="#communicate"><h2>Communicate</h2></a></li>
+        <li><a href="#crease-movement"><h2>1. Stance & Crease Movement</h2></a></li>
+        <li><a href="#angle-depth"><h2>2. Angles, Depth & Tracking</h2></a></li>
+        <li><a href="#puck-handling"><h2>3. Playing the Puck & Breakouts</h2></a></li>
+        <li><a href="#goalie-talk"><h2>4. On-Ice Communication</h2></a></li>
+        <li><a href="#goalie-videos"><h2>5. Goalie Video Vault</h2></a></li>
     </ul>
 
-    <div id="in-possession" class="content-section">
-        <h2>In Possession</h2>
-        <p>When your team has the puck that means we are in possession.</p>
-        <h2>Things to know when in possession</h2>
+    <div id="crease-movement" class="content-section">
+        <h2>1. Stance & Crease Movement</h2>
+        <p>At 12 years old, dynamic movement inside the crease is your primary tool. You must arrive at your spot before the shooter is ready to release the puck.</p>
+        <h2>Key Techniques to Master:</h2>
         <ul>
-            <li>Breakouts</li>
-            <li>Regrouping</li>
-            <li>O-Zone Systems</li>
-            <li><a href="#decisionModal" id="when-to-carry-pass" class="strategy-link">When to carry the puck, when to pass</a></li>
-            <li><a href="#noPuckModal" id="openNoPuckModalLink" class="nopuck-link">What to do when you don't have the puck</a></li>
+            <li><strong>Shuffles:</strong> Used for short distance adjustments when the puck moves slowly across the ice.</li>
+            <li><strong>T-Pushes:</strong> Used for rapid, long-distance movements across the crease during cross-ice passes.</li>
+            <li><strong>Butterfly Slides:</strong> Sliding on your pads to cover the bottom net angle on low rebound plays.</li>
+            <li><a href="#movementModal" id="openMovementLink" class="strategy-link">Check Stance & Recovery Checklist</a></li>
         </ul>
-        <a href="#possession-top" class="back-to-top">↑ Back to Navigation</a>
+        <a href="#goalies-top" class="back-to-top">↑ Back to Navigation</a>
     </div>
 
-    <div id="out-of-possession" class="content-section">
-        <h2>Pressure - (Out of Possession)</h2>
-        <p>When the other team has the puck, we are in pressure mode (out of possession) </p>
-        <h3>What to know when in Pressure mode (out of possession)</h3>
+    <div id="angle-depth" class="content-section">
+        <h2>2. Angles, Depth & Tracking</h2>
+        <p>Good goaltending isn't about making flashy saves; it's about making saves look easy through position and tracking.</p>
+        <h3>Core Principles:</h3>
         <ul>
-            <li>Forecheck</li>
-            <li>Backcheck</li>
-            <li><a href="#when-to-attack">When to attack</a></li>
-            <li>D-Zone Systems</li>
+            <li><strong>Angle:</strong> Stay lined up centered between the puck and the middle of your net.</li>
+            <li><strong>Depth:</strong> Challenge at the top of your crease on clear shots; pull back toward the posts as the play gets closer.</li>
+            <li><strong>Eye Tracking:</strong> Keep your eyes glued on the puck from the stick blade all the way into your body, glove, or pads.</li>
         </ul>
-        <a href="#possession-top" class="back-to-top">↑ Back to Navigation</a>
+        <a href="#goalies-top" class="back-to-top">↑ Back to Navigation</a>
     </div>
 
-    <div id="loose-50-50" class="content-section">
-        <h2>Battle Mode - (Loose 50-50)</h2>
-        <p>When no one has the puck, the other team is bobbling the puck, or it is within 1 second of a player on the other team receives a pass we are playing in battle mode (loose/50-50).</p>
-        <h3>What to know about loose 50-50 puck battles</h3>
+    <div id="puck-handling" class="content-section">
+        <h2>3. Playing the Puck & Breakouts</h2>
+        <p>Goalies are the third defenseman on the ice! Stopping rimmed pucks and setting up breakouts helps our team transition to attack faster.</p>
+        <h3>What to master:</h3>
         <ul>
-            <li><a href="#when-to-attack">When to attack</a></li>
-            <li><a href="#" id="openPuckBattlesModalLink" class="puck-battles-link">How to win puck battles</a></li>
-            <li><a href="#support-teammates">How to support teammates in puck battles</a></li>
-            <li><a href="#" id="openSystemsModalLink" class="systems-link">What system to use</a></li>
+            <li>Stopping dump-ins cleanly behind the net for your defensemen.</li>
+            <li>Making quick, confident breakout passes when defenders are under pressure.</li>
+            <li><a href="#puckPlayModal" id="openPuckPlayLink" class="nopuck-link">When to play the puck vs. when to freeze it</a></li>
         </ul>
-        <a href="#possession-top" class="back-to-top">↑ Back to Navigation</a>
+        <a href="#goalies-top" class="back-to-top">↑ Back to Navigation</a>
     </div>
 
-    <div id="when-to-attack" class="content-section">
-        <h2>When to Attack</h2>
-        <p>Good defenders don't just react, they look for chances to attack and win the puck. Attack when the other team loses control of the puck, bobbles it, or takes their eyes off it. A great time to pressure is during the first second after a player receives a pass, before they have control and can make a play. Make sure you are not the last man back. Smart pressure creates turnovers and helps our team get the puck back faster.</p>
-        <a href="#possession-top" class="back-to-top">↑ Back to Navigation</a>
+    <div id="goalie-talk" class="content-section">
+        <h2>4. On-Ice Communication</h2>
+        <p>You see the entire ice! Your vocal cues help defensemen make faster decisions under pressure during breakouts and D-zone coverage.</p>
+        <h3>Essential Goalie Calls:</h3>
+        <ul>
+            <li><strong>"RIMS!"</strong> – Alert your defensemen that a puck is being dumped around the boards.</li>
+            <li><strong>"TIME!"</strong> – Let your defenseman know they have room to turn and control the puck.</li>
+            <li><strong>"MAN ON!"</strong> – Warn your defenseman that an opponent is coming quickly to forecheck them.</li>
+            <li><strong>"OVER!" / "REVERSE!"</strong> – Directing your partner where to transfer the puck behind the net.</li>
+        </ul>
+        <a href="#goalies-top" class="back-to-top">↑ Back to Navigation</a>
+        <a href="communication.html" class="back-to-top">→ Learn more about full team communication</a>
     </div>
 
-    <div id="communicate" class="content-section">
-        <h2>Communicate</h2>
-        <p>Maintain consistent vocal cues for blind spot alerts, defensive switches, and line change pacing. Ensure clear point-to-point talk during high-pressure cycles to eliminate coverage confusion in the zone.</p>
-        <a href="#possession-top" class="back-to-top">↑ Back to Navigation</a>
-        <a href="communication.html" class="back-to-top">→ Learn more about communication</a>
-    </div>
-
-    <div id="support-teammates" class="content-section">
-        <h2>How to support teammates in puck battles</h2>
-        <p>Maintain consistent vocal cues for blind spot alerts, defensive switches, and line change pacing. Ensure clear point-to-point talk during high-pressure cycles to eliminate coverage confusion in the zone.</p>
-        <a href="#possession-top" class="back-to-top">↑ Back to Navigation</a>
-        <a href="communication.html" class="back-to-top">→ Learn more about communication</a>
+    <div id="goalie-videos" class="content-section">
+        <h2>5. Goalie Video Vault</h2>
+        <p>Watch short video breakdowns of crease movement, butterfly recovery, and playing the puck efficiently.</p>
+        <p><a href="#videoModal" id="openVideoLink" class="puck-battles-link">▶ Click to launch Goalie Drill Videos</a></p>
+        <a href="#goalies-top" class="back-to-top">↑ Back to Navigation</a>
     </div>
 
 </div>
 
-<!-- SYSTEMS MODAL -->
-<div id="systemsModal" class="modal-overlay">
-    <div class="modal-content systems-modal-width">
-        <span class="modal-close" id="closeSystemsModal">&times;</span>
+<!-- STANCE & MOVEMENT MODAL -->
+<div id="movementModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="modal-close" id="closeMovementBtn">&times;</span>
         
-        <h2 class="modal-title">What system to use</h2>
+        <h2 class="modal-title">Stance & Recovery Checklist</h2>
         
-        <div class="systems-grid">
-            
-            <div class="system-card mode-possession">
-                <div class="system-header">
-                    <span class="mode-badge">Possession Mode</span>
-                    <h3>When you have possession</h3>
-                </div>
-                <ul class="system-list">
-                    <li>Breakouts</li>
-                    <li>Regrouping</li>
-                    <li>O-Zone system</li>
-                </ul>
-            </div>
-            
-            <div class="system-card mode-pressure">
-                <div class="system-header">
-                    <span class="mode-badge">Pressure Mode</span>
-                    <h3>When the other team has the puck</h3>
-                </div>
-                <ul class="system-list">
-                    <li>Forecheck</li>
-                    <li>Backcheck</li>
-                    <li>D-Zone system</li>
-                </ul>
-            </div>
-            
-            <div class="system-card mode-battle">
-                <div class="system-header">
-                    <span class="mode-badge">Battle Mode</span>
-                    <h3>When no one has the puck / loose puck / within 1 second of taking a pass</h3>
-                </div>
-                <ul class="system-list battle-flex">
-                    <li>Attack the puck</li>
-                    <li>2 on the pile during board battles</li>
-                </ul>
-            </div>
-
+        <div class="nopuck-content">
+            <ul class="tactical-checklist">
+                <li>
+                    <span class="check-icon">🏒</span>
+                    <p><strong>Stick Position:</strong> 3-4 inches in front of skate toes, flat on the ice.</p>
+                </li>
+                <li>
+                    <span class="check-icon">👁️</span>
+                    <p><strong>Head & Eyes:</strong> Lead with your eyes first, then your stick/hands, then your feet.</p>
+                </li>
+                <li>
+                    <span class="check-icon">📐</span>
+                    <p><strong>Glove & Blocker:</strong> Hands held forward out in front of body, elbows clear of torso.</p>
+                </li>
+                <li>
+                    <span class="check-icon">🔄</span>
+                    <p><strong>Butterfly Recovery:</strong> Always recover with the lead foot nearest to where the puck is moving.</p>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
 
-<!-- DECISION MODAL -->
-<div id="decisionModal" class="modal-overlay">
+<!-- PLAYING THE PUCK MODAL -->
+<div id="puckPlayModal" class="modal-overlay">
     <div class="modal-content">
-        <span class="modal-close">&times;</span>
+        <span class="modal-close" id="closePuckPlayBtn">&times;</span>
         
-        <h2 class="modal-title">When to carry the puck, when to pass</h2>
+        <h2 class="modal-title">When to Play vs. Freeze the Puck</h2>
         
         <div class="modal-grid">
             <div class="modal-column carry-zone">
-                <h3>Carry the puck when:</h3>
+                <h3>PLAY the Puck when:</h3>
                 <ul>
-                    <li>You have open ice in front of you.</li>
-                    <li>No teammate is in a better position.</li>
-                    <li>You can skate around a defender (not through).</li>
-                    <li>You can create a scoring chance by attacking.</li>
+                    <li>You can stop a rimmed puck behind the net safely.</li>
+                    <li>Your defenseman is under heavy forecheck pressure and needs an easy outlet.</li>
+                    <li>The puck is loose in the crease with no forecheckers nearby.</li>
                 </ul>
             </div>
             
             <div class="modal-column pass-zone">
-                <h3>Pass the puck when:</h3>
+                <h3>FREEZE the Puck when:</h3>
                 <ul>
-                    <li>A teammate has more space than you.</li>
-                    <li>A defender is pressuring you.</li>
-                    <li>The pass creates an odd-man rush (2-on-1, 3-on-2).</li>
-                    <li>Your teammate has a better shooting opportunity.</li>
+                    <li>Your team has been stuck on ice for a long shift and needs a whistle.</li>
+                    <li>An opponent is bearing down hard on you in the crease.</li>
+                    <li>The puck is dangerous/loose in high-traffic slot areas.</li>
                 </ul>
             </div>
         </div>
         
         <div class="modal-footer">
-            <h3>Decision Making Steps</h3>
+            <h3>Quick Decision Formula</h3>
             <ol class="decision-steps">
-                <li><span class="step-num">1</span> Can I attack open ice? <span class="arrow">→</span> <span class="badge badge-carry">Carry</span></li>
-                <li><span class="step-num">2</span> Is my teammate in a better position? <span class="arrow">→</span> <span class="badge badge-pass">Pass</span></li>
-                <li><span class="step-num">3</span> Neither? <span class="arrow">→</span> <span class="badge badge-protect">Protect the puck and keep possession</span></li>
+                <li><span class="step-num">1</span> Can I safely stop or pass the puck? <span class="arrow">→</span> <span class="badge badge-carry">Play It</span></li>
+                <li><span class="step-num">2</span> Is there immediate opponent pressure? <span class="arrow">→</span> <span class="badge badge-pass">Cover / Freeze</span></li>
+                <li><span class="step-num">3</span> Are your teammates tired? <span class="arrow">→</span> <span class="badge badge-protect">Freeze for Whistle</span></li>
             </ol>
         </div>
     </div>
 </div>
 
-<!-- NO PUCK MODAL -->
-<div id="noPuckModal" class="modal-overlay">
-    <div class="modal-content nopuck-modal-width">
-        <span class="modal-close" id="closeNoPuckModal">&times;</span>
-        
-        <h2 class="modal-title">What to do when you don't have the puck</h2>
-        
-        <div class="nopuck-content">
-            <ul class="tactical-checklist">
-                <li>
-                    <span class="check-icon">👁️</span>
-                    <p><strong>Keep your head up</strong> and scan the ice constantly.</p>
-                </li>
-                <li>
-                    <span class="check-icon">🏒</span>
-                    <p><strong>Find open space</strong> instead of standing still.</p>
-                </li>
-                <li>
-                    <span class="check-icon">⏱️</span>
-                    <p><strong>Move at the right time</strong> when your teammate is ready to pass.</p>
-                </li>
-                <li>
-                    <span class="check-icon">🗣️</span>
-                    <p><strong>Communicate</strong> so your teammates know you're available.</p>
-                </li>
-            </ul>
-        </div>
-        
-        <div class="modal-video-cta">
-            <p>Want to see these concepts in action?</p>
-            <a href="nopuck.html" class="video-btn">Click to check out videos</a>
-        </div>
-    </div>
-</div>
-
-<!-- PUCK BATTLES YOUTUBE MODAL -->
-<div id="puckBattlesModal" class="modal-overlay">
+<!-- GOALIE VIDEO MODAL -->
+<div id="videoModal" class="modal-overlay">
     <div class="modal-content">
-        <span class="modal-close" id="closePuckBattlesModal">&times;</span>
+        <span class="modal-close" id="closeVideoBtn">&times;</span>
         
-        <h2 class="modal-title">Puck Battle Tutorials</h2>
+        <h2 class="modal-title">Goalie Training Videos</h2>
         
-        <!-- View 1: Video List -->
-        <div id="pbListView">
-            <ul class="video-list" id="pbVideoList"></ul>
+        <!-- View 1: List -->
+        <div id="gListView">
+            <ul class="video-list" id="gVideoList"></ul>
         </div>
 
-        <!-- View 2: Video Player -->
-        <div id="pbPlayerView" class="player-container">
-            <button class="back-btn" id="pbBackBtn">&larr; Back to video list</button>
+        <!-- View 2: Player -->
+        <div id="gPlayerView" class="player-container">
+            <button class="back-btn" id="gBackBtn">&larr; Back to video list</button>
             <div class="video-wrapper">
-                <iframe id="pbYoutubeIframe" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <iframe id="gYoutubeIframe" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             </div>
         </div>
     </div>
