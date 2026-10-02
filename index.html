@@ -114,6 +114,48 @@
             width: 80%;
         }
     </style>
+    <!-- Password gate (added) -->
+    <style id="tpGateStyle">body > *:not(#tpGate){display:none !important;}</style>
+    <script>
+    (function () {
+        var KEY = 'overallTeamPlanUnlocked';
+        var PASSWORD = 'Thunder2014';
+        if (localStorage.getItem(KEY) === '1') {
+            var s = document.getElementById('tpGateStyle');
+            if (s) s.parentNode.removeChild(s);
+            return;
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            var gate = document.createElement('div');
+            gate.id = 'tpGate';
+            gate.setAttribute('style', 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;');
+            gate.innerHTML =
+                '<form id="tpGateForm" style="background:#1e293b;padding:32px 28px;border-radius:14px;width:300px;max-width:90vw;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.4);">' +
+                '<div style="font-size:22px;font-weight:700;color:#fff;margin-bottom:6px;">Team Plan</div>' +
+                '<div style="font-size:14px;color:#94a3b8;margin-bottom:18px;">Enter the password to continue</div>' +
+                '<input id="tpGateInput" type="password" autocomplete="current-password" placeholder="Password" style="width:100%;box-sizing:border-box;padding:12px;border-radius:8px;border:1px solid #334155;background:#0f172a;color:#fff;font-size:16px;margin-bottom:12px;">' +
+                '<button type="submit" style="width:100%;padding:12px;border:0;border-radius:8px;background:#2563eb;color:#fff;font-size:16px;font-weight:600;cursor:pointer;">Unlock</button>' +
+                '<div id="tpGateError" style="color:#f87171;font-size:14px;margin-top:10px;min-height:18px;"></div>' +
+                '</form>';
+            document.body.appendChild(gate);
+            var input = document.getElementById('tpGateInput');
+            input.focus();
+            document.getElementById('tpGateForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (input.value === PASSWORD) {
+                    localStorage.setItem(KEY, '1');
+                    gate.parentNode.removeChild(gate);
+                    var s = document.getElementById('tpGateStyle');
+                    if (s) s.parentNode.removeChild(s);
+                } else {
+                    document.getElementById('tpGateError').textContent = 'Wrong password';
+                    input.value = '';
+                    input.focus();
+                }
+            });
+        });
+    })();
+    </script>
 </head>
 <body>
 
